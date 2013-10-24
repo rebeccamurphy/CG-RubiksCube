@@ -25,16 +25,17 @@ Notes on functions taken in class.
 // gl_Position = projection * modelview *vposition; 
  
  */
-var Cube = function (program, facecolors, turnsides) { this.init(program, facecolors, turnsides); }
+var Cube = function (program, facecolors, turnsides, pos) { this.init(program, facecolors, turnsides, pos); }
 
 /* Initialize properties of this color cube object. */
-Cube.prototype.init = function(program, facecolors, turnsides)
+Cube.prototype.init = function(program, facecolors, turnsides, pos)
 {
     this.points = []; // this array will hold raw vertex positions
     this.colors = []; // this array will hold per-vertex color data
     this.transform = mat4(); // initialize object transform as identity matrix
 	this.facecolors = facecolors;
 	this.turnsides = turnsides;
+	this.pos = pos;
     // TODO make sure we pass the face colors into this call
     this.mkcube(); // delegate to auxiliary function
 	
@@ -192,148 +193,6 @@ window.onload = function() {
 	//for facecolors [forward side, right side, bottom side, top side, back side, left side]  
 	//for facecolors [orange, blue, white, yellow, red,green]  
 		// for colors 0 = black, 1 = red, 2 = yellow, 3 = green, 4 = blue, 5 = magenta, 6 = white, 7 = cyan
-	var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
-    var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
-    var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
-    var yellow =[ 1.0, 1.0, 0.0, 1.0 ]; // yellow
-    var green =[ 0.0, 1.0, 0.0, 1.0 ]; // green
-    var blue =[ 0.0, 0.0, 1.0, 1.0 ]; // blue
-    var magenta=[ 1.0, 0.0, 1.0, 1.0 ]; // magenta
-    var white =[ 1.0, 1.0, 1.0, 1.0 ]; // white
-    var cyan = [ 0.0, 1.0, 1.0, 1.0 ]; // cyan
-	
-	//mid
-	var space = .1;
-	for (var ls =-1; ls <2; ls++)
-	
-	{
-	{
-	switch(ls)
-	{
-	case -1:
-	
-	var clsidetop = new Cube(shaders, [black, black, black, yellow, red,green]  ,['Y', 'G','R']);
-	var ctop = new Cube(shaders, [black, black, black, yellow, red,black] ,[ 'Y', 'R'] );
-	var crsidetop = new Cube(shaders, [black, blue, black, yellow, red,black] ,['Y', 'R','B' ] );
-	
-	
-	var clsidemid = new Cube(shaders, [black, black, black, black, red,green] ,['G', 'R'] );
-	var cmid = new Cube(shaders, [black, black, , black, red, black]  ,['R']);
-	var crsidemid = new Cube(shaders, [black, blue, black, black, red,black],['R', 'B']  );
-	
-	
-	var clsidebot = new Cube(shaders,  [black, black, white, black, red,green] ,['W', 'G', 'R']);
-	var cbot = new Cube(shaders, [black, black, white, black, red,black] ,['W', 'R'] );
-	var crsidebot = new Cube(shaders, [black, blue, white, black, red,black] ,['W', 'R', 'B'] );
-	
-	break;
-	
-	case 0:
-	
-	var clsidetop = new Cube(shaders, [black, black, black, yellow, black,green],['Y', 'G']  );
-	var ctop = new Cube(shaders, [black, black, black, yellow, black,black], ['Y']  );
-	var crsidetop = new Cube(shaders, [black, blue, black, yellow, black,black],['Y','B']  );
-	
-	var clsidemid = new Cube(shaders, [black, black, black, black, black,green],['G']  );
-	var cmid = new Cube(shaders, [black, black, , black, black, black],[]  );	
-	var crsidemid = new Cube(shaders, [black, blue, black, black, black,black],['B']  );
-	
-	var clsidebot = new Cube(shaders,  [black, black, white, black, black,green],['W', 'G'] );
-	var cbot = new Cube(shaders, [black, black, white, black, black,black],['W']  );
-	var crsidebot = new Cube(shaders, [black, blue, white, black, black,black],['W', 'B']  );
-	
-	break;
-	
-	case 1:
-	var clsidetop = new Cube(shaders, [orange, black, black, yellow, black,green] ,['O','Y', 'G'] );
-	var ctop = new Cube(shaders, [orange, black, black, yellow, black,black],[ 'O','Y']  );
-	var crsidetop = new Cube(shaders, [orange, blue, black, yellow, black,black],['O','Y']  );
-	
-	var clsidemid = new Cube(shaders, [orange, black, black, black, black,green] ,['O', 'G'] );
-	var cmid = new Cube(shaders, [orange, black, black, black, black, black] ,[] );
-	var crsidemid = new Cube(shaders, [orange, blue, black, black, black,black] ,['O', 'B'] );
-	
-	var clsidebot = new Cube(shaders,  [orange, black, white, black, black,green],['O','W', 'G'] );
-	var cbot = new Cube(shaders, [orange, black, white, black, black,black] ,['0','W', 'G'] );
-	var crsidebot = new Cube(shaders, [orange, blue, white, black, black,black] ,['O','W', 'B'] );
-	
-	break;
-	}
-	
-    ctop.move(1.0, Y_AXIS);
-	ctop.move(ls, Z_AXIS);
-	ctop.move(space, Y_AXIS);
-	ctop.move(space*ls, Z_AXIS);
-	drawables.push(ctop);
-    toprow.push(ctop);
-	
-	cmid.move(ls, Z_AXIS);
-	cmid.move(space*ls, Z_AXIS);
-	drawables.push(cmid);
-	
-	//center bottom
-	cbot.move(-1.0,Y_AXIS);
-	cbot.move(ls, Z_AXIS);
-	cbot.move(-space, Y_AXIS);
-	cbot.move(space*ls, Z_AXIS);
-	drawables.push(cbot)
-	}
-	
-	crsidetop.move(1.0, X_AXIS);
-  	crsidetop.move(1.0,Y_AXIS);
-	crsidetop.move(ls, Z_AXIS);
-	crsidetop.move(space, Y_AXIS);
-	crsidetop.move(space, X_AXIS);
-	crsidetop.move(space*ls, Z_AXIS);
-	drawables.push(crsidetop);
-	toprow.push(crsidetop);
-	
-	
-	crsidemid.move(1.0, X_AXIS);
-	crsidemid.move(ls, Z_AXIS);
-	crsidemid.move(space, X_AXIS);
-	crsidemid.move(space*ls, Z_AXIS);
-	drawables.push(crsidemid);
-	
-	
-	crsidebot.move(1.0, X_AXIS);
-  	crsidebot.move(-1.0,Y_AXIS);
-	crsidebot.move(ls, Z_AXIS);
-	crsidebot.move(-space, Y_AXIS);
-	crsidebot.move(space, X_AXIS);
-	crsidebot.move(space*ls, Z_AXIS);
-	
-	drawables.push(crsidebot);
-	
-	//left
-	
-	clsidetop.move(-1.0, X_AXIS);
-  	clsidetop.move(1.0,Y_AXIS);
-	clsidetop.move(ls,Z_AXIS);
-	clsidetop.move(space, Y_AXIS);
-	clsidetop.move(-space, X_AXIS);
-	clsidetop.move(space*ls, Z_AXIS);
-	drawables.push(clsidetop);
-	toprow.push(clsidetop);
-	
-
-	clsidemid.move(-1.0, X_AXIS);
-	clsidemid.move(ls, Z_AXIS);
-	clsidemid.move(-space, X_AXIS);
-	clsidemid.move(space*ls, Z_AXIS);
-	drawables.push(clsidemid);
-	
-	
-	clsidebot.move(-1.0, X_AXIS);
-  	clsidebot.move(-1.0,Y_AXIS);
-	clsidebot.move(ls, Z_AXIS);
-	clsidebot.move(-space, Y_AXIS);
-	clsidebot.move(-space, X_AXIS);
-	clsidebot.move(space*ls, Z_AXIS);
-	
-	drawables.push(clsidebot);
-	
-	}
-
+	drawables = makesolved(drawables, shaders);
     renderScene(); // begin render loop
 }
