@@ -25,15 +25,16 @@ Notes on functions taken in class.
 // gl_Position = projection * modelview *vposition; 
  
  */
-var Cube = function (program, facecolors) { this.init(program, facecolors); }
+var Cube = function (program, facecolors, turnsides) { this.init(program, facecolors, turnsides); }
 
 /* Initialize properties of this color cube object. */
-Cube.prototype.init = function(program, facecolors)
+Cube.prototype.init = function(program, facecolors, turnsides)
 {
     this.points = []; // this array will hold raw vertex positions
     this.colors = []; // this array will hold per-vertex color data
     this.transform = mat4(); // initialize object transform as identity matrix
 	this.facecolors = facecolors;
+	this.turnsides = turnsides;
     // TODO make sure we pass the face colors into this call
     this.mkcube(); // delegate to auxiliary function
 	
@@ -210,45 +211,52 @@ window.onload = function() {
 	switch(ls)
 	{
 	case -1:
-	var ctop = new Cube(shaders, [black, black, black, yellow, red,black]  );
-	var crsidetop = new Cube(shaders, [black, blue, black, yellow, red,black]  );
-	var clsidetop = new Cube(shaders, [black, black, black, yellow, red,green]  );
 	
-	var cmid = new Cube(shaders, [black, black, , black, red, black]  );
-	var crsidemid = new Cube(shaders, [black, blue, black, black, red,black]  );
-	var clsidemid = new Cube(shaders, [black, black, black, black, red,green]  );
+	var clsidetop = new Cube(shaders, [black, black, black, yellow, red,green]  ,['Y', 'G','R']);
+	var ctop = new Cube(shaders, [black, black, black, yellow, red,black] ,[ 'Y', 'R'] );
+	var crsidetop = new Cube(shaders, [black, blue, black, yellow, red,black] ,['Y', 'R','B' ] );
 	
-	var cbot = new Cube(shaders, [black, black, white, black, red,black]  );
-	var crsidebot = new Cube(shaders, [black, blue, white, black, red,black]  );
-	var clsidebot = new Cube(shaders,  [black, black, white, black, red,green] );
+	
+	var clsidemid = new Cube(shaders, [black, black, black, black, red,green] ,['G', 'R'] );
+	var cmid = new Cube(shaders, [black, black, , black, red, black]  ,['R']);
+	var crsidemid = new Cube(shaders, [black, blue, black, black, red,black],['R', 'B']  );
+	
+	
+	var clsidebot = new Cube(shaders,  [black, black, white, black, red,green] ,['W', 'G', 'R']);
+	var cbot = new Cube(shaders, [black, black, white, black, red,black] ,['W', 'R'] );
+	var crsidebot = new Cube(shaders, [black, blue, white, black, red,black] ,['W', 'R', 'B'] );
+	
 	break;
 	
 	case 0:
-	var ctop = new Cube(shaders, [black, black, black, yellow, black,black]  );
-	var crsidetop = new Cube(shaders, [black, blue, black, yellow, black,black]  );
-	var clsidetop = new Cube(shaders, [black, black, black, yellow, black,green]  );
 	
-	var cmid = new Cube(shaders, [black, black, , black, black, black]  );
-	var crsidemid = new Cube(shaders, [black, blue, black, black, black,black]  );
-	var clsidemid = new Cube(shaders, [black, black, black, black, black,green]  );
+	var clsidetop = new Cube(shaders, [black, black, black, yellow, black,green],['Y', 'G']  );
+	var ctop = new Cube(shaders, [black, black, black, yellow, black,black], ['Y']  );
+	var crsidetop = new Cube(shaders, [black, blue, black, yellow, black,black],['Y','B']  );
 	
-	var cbot = new Cube(shaders, [black, black, white, black, black,black]  );
-	var crsidebot = new Cube(shaders, [black, blue, white, black, black,black]  );
-	var clsidebot = new Cube(shaders,  [black, black, white, black, black,green] );
+	var clsidemid = new Cube(shaders, [black, black, black, black, black,green],['G']  );
+	var cmid = new Cube(shaders, [black, black, , black, black, black],[]  );	
+	var crsidemid = new Cube(shaders, [black, blue, black, black, black,black],['B']  );
+	
+	var clsidebot = new Cube(shaders,  [black, black, white, black, black,green],['W', 'G'] );
+	var cbot = new Cube(shaders, [black, black, white, black, black,black],['W']  );
+	var crsidebot = new Cube(shaders, [black, blue, white, black, black,black],['W', 'B']  );
+	
 	break;
 	
 	case 1:
-	var ctop = new Cube(shaders, [orange, black, black, yellow, black,black]  );
-	var crsidetop = new Cube(shaders, [orange, blue, black, yellow, black,black]  );
-	var clsidetop = new Cube(shaders, [orange, black, black, yellow, black,green]  );
+	var clsidetop = new Cube(shaders, [orange, black, black, yellow, black,green] ,['O','Y', 'G'] );
+	var ctop = new Cube(shaders, [orange, black, black, yellow, black,black],[ 'O','Y']  );
+	var crsidetop = new Cube(shaders, [orange, blue, black, yellow, black,black],['O','Y']  );
 	
-	var cmid = new Cube(shaders, [orange, black, , black, black, black]  );
-	var crsidemid = new Cube(shaders, [orange, blue, black, black, black,black]  );
-	var clsidemid = new Cube(shaders, [orange, black, black, black, black,green]  );
+	var clsidemid = new Cube(shaders, [orange, black, black, black, black,green] ,['O', 'G'] );
+	var cmid = new Cube(shaders, [orange, black, black, black, black, black] ,[] );
+	var crsidemid = new Cube(shaders, [orange, blue, black, black, black,black] ,['O', 'B'] );
 	
-	var cbot = new Cube(shaders, [orange, black, white, black, black,black]  );
-	var crsidebot = new Cube(shaders, [orange, blue, white, black, black,black]  );
-	var clsidebot = new Cube(shaders,  [orange, black, white, black, black,green] );
+	var clsidebot = new Cube(shaders,  [orange, black, white, black, black,green],['O','W', 'G'] );
+	var cbot = new Cube(shaders, [orange, black, white, black, black,black] ,['0','W', 'G'] );
+	var crsidebot = new Cube(shaders, [orange, blue, white, black, black,black] ,['O','W', 'B'] );
+	
 	break;
 	}
 	

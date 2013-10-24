@@ -127,14 +127,14 @@ var renderScene = function(){
 	var numcubes =9;
     for (i in drawables) {
 
-		if (turn == true&& angle !=90.0*numcubes && topindexes.indexOf(parseInt(i)) !=-1) 
+		if (turn == true&& angle !=90.0*numcubes && drawables[i].turnsides.indexOf('W') !=-1) 
 
 		{	// 
 			//alert( i + " " +rightindexes.indexOf(parseInt(i)))
 			//alert( i +" "+ i.valueOf());
 			if (turnr==true)
 
-			  drawables[i].orbit(1.0, Y_AXIS);
+			  drawables[i].orbit(-1.0, Y_AXIS);
 			
 			else 
 				drawables[i].orbit(-1.0, Y_AXIS);
