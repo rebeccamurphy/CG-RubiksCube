@@ -125,15 +125,15 @@ var renderScene = function(){
     // loop over all objects and draw each
     var i, frame;
     for (i in drawables) {
-		if (turn == true&& angle !=90.0*9 && rightindexes.indexOf(parseInt(i)) !=-1) 
-		{	
+		if (turn == true&& angle !=90.0*9 && topindexes.indexOf(parseInt(i)) !=-1) 
+		{	// && topindexes.indexOf(parseInt(i)) !=-1
 			//alert( i + " " +rightindexes.indexOf(parseInt(i)))
 			//alert( i +" "+ i.valueOf());
 			if (turnr==true)
-			  drawables[i].orbit(1.0, X_AXIS);
+			  drawables[i].orbit(1.0, Y_AXIS);
 			
 			else 
-				drawables[i].orbit(-1.0, X_AXIS);
+				drawables[i].orbit(-1.0, Y_AXIS);
 			drawables[i].draw();
 			angle+=1.0;
 			if (angle>=90.0*9)
@@ -143,7 +143,23 @@ var renderScene = function(){
 					turn = false;
 					turnl= false;}
 		}
-		
+		/*else if( turn == true&& angle !=90.0*9 && rightindexes.indexOf(parseInt(i)) !=-1)
+		{
+		if (turnl==true)
+			  drawables[i].orbit(1.0, X_AXIS);
+			
+		//	else 
+		//		drawables[i].orbit(-1.0, Z_AXIS);
+			drawables[i].draw();
+			angle+=1.0;
+			if (angle>=90.0*9)
+			
+					{
+					turnr = false;
+					turn = false;
+					turnl= false;}
+		}
+		*/
 		else{ 
         drawables[i].draw();
 		}
