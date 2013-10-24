@@ -59,6 +59,9 @@ Cube.prototype.draw = function(){
     var projId = gl.getUniformLocation(this.program, "projection"); 
     gl.uniformMatrix4fv(projId, false, flatten(projection));
 
+	var camId = gl.getUniformLocation(this.program, "camera");
+    gl.uniformMatrix4fv(camId, false, flatten(camera));
+	
     var xformId = gl.getUniformLocation(this.program, "modeltransform");
     gl.uniformMatrix4fv(xformId, false, flatten(this.transform));
 
@@ -186,9 +189,11 @@ window.onload = function() {
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
 	//for facecolors [forward side, right side, bottom side, top side, back side, left side]  
+	//for facecolors [orange, blue, white, yellow, red,green]  
 		// for colors 0 = black, 1 = red, 2 = yellow, 3 = green, 4 = blue, 5 = magenta, 6 = white, 7 = cyan
 	var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
     var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
+    var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
     var yellow =[ 1.0, 1.0, 0.0, 1.0 ]; // yellow
     var green =[ 0.0, 1.0, 0.0, 1.0 ]; // green
     var blue =[ 0.0, 0.0, 1.0, 1.0 ]; // blue
@@ -197,59 +202,82 @@ window.onload = function() {
     var cyan = [ 0.0, 1.0, 1.0, 1.0 ]; // cyan
 	
 	//mid
+	var space = .1;
 	for (var ls =-1; ls <2; ls++)
 	{
-	
-	var ctop = new Cube(shaders, [red,yellow,green,blue,magenta,white]);
+	{var ctop = new Cube(shaders, [orange, black, white, yellow, red,green]  );
     ctop.move(1.0, Y_AXIS);
 	ctop.move(ls, Z_AXIS);
+	ctop.move(space, Y_AXIS);
+	ctop.move(space*ls, Z_AXIS);
 	drawables.push(ctop);
     toprow.push(ctop);
 	
-	var cmid = new Cube(shaders, [white,magenta,red,yellow,blue,green]);
+	var cmid = new Cube(shaders, [orange, black, white, black, red, black]  );
 	cmid.move(ls, Z_AXIS);
+	cmid.move(space*ls, Z_AXIS);
 	drawables.push(cmid);
 	
-	var cbot = new Cube(shaders, [red,white,blue,green,yellow,magenta]);
+	var cbot = new Cube(shaders, [orange, black, white, black, red,black]  ); //center bottom
 	cbot.move(-1.0,Y_AXIS);
 	cbot.move(ls, Z_AXIS);
+	cbot.move(-space, Y_AXIS);
+	cbot.move(space*ls, Z_AXIS);
 	drawables.push(cbot)
-	//right
-	var crsidetop = new Cube(shaders, [red,white,blue,green,yellow,magenta]);
+	}
+	var crsidetop = new Cube(shaders, [orange, blue, white, yellow, red,black]  );
 	crsidetop.move(1.0, X_AXIS);
   	crsidetop.move(1.0,Y_AXIS);
 	crsidetop.move(ls, Z_AXIS);
+	crsidetop.move(space, Y_AXIS);
+	crsidetop.move(space, X_AXIS);
+	crsidetop.move(space*ls, Z_AXIS);
 	drawables.push(crsidetop);
 	toprow.push(crsidetop);
 	
-	var crsidemid = new Cube(shaders, [red,white,blue,green,yellow,magenta]);
+	var crsidemid = new Cube(shaders, [orange, blue, white, black, red,black]  );
 	crsidemid.move(1.0, X_AXIS);
 	crsidemid.move(ls, Z_AXIS);
+	crsidemid.move(space, X_AXIS);
+	crsidemid.move(space*ls, Z_AXIS);
 	drawables.push(crsidemid);
 	
-	var crsidebot = new Cube(shaders, [red,white,blue,green,yellow,magenta]);
+	var crsidebot = new Cube(shaders, [orange, blue, white, black, red,black]  );
 	crsidebot.move(1.0, X_AXIS);
   	crsidebot.move(-1.0,Y_AXIS);
 	crsidebot.move(ls, Z_AXIS);
+	crsidebot.move(-space, Y_AXIS);
+	crsidebot.move(space, X_AXIS);
+	crsidebot.move(space*ls, Z_AXIS);
+	
 	drawables.push(crsidebot);
 	
 	//left
-	var clsidetop = new Cube(shaders, [red,white,blue,green,yellow,magenta]);
+	var clsidetop = new Cube(shaders, [orange, black, white, yellow, red,green]  );
 	clsidetop.move(-1.0, X_AXIS);
   	clsidetop.move(1.0,Y_AXIS);
 	clsidetop.move(ls,Z_AXIS);
+	clsidetop.move(space, Y_AXIS);
+	clsidetop.move(-space, X_AXIS);
+	clsidetop.move(space*ls, Z_AXIS);
 	drawables.push(clsidetop);
 	toprow.push(clsidetop);
 	
-	var clsidemid = new Cube(shaders, [red,white,blue,green,yellow,magenta]);
+	var clsidemid = new Cube(shaders, [orange, black, white, black, red,green]  );
 	clsidemid.move(-1.0, X_AXIS);
 	clsidemid.move(ls, Z_AXIS);
+	clsidemid.move(-space, X_AXIS);
+	clsidemid.move(space*ls, Z_AXIS);
 	drawables.push(clsidemid);
 	
-	var clsidebot = new Cube(shaders, [red,white,blue,green,yellow,magenta]);
+	var clsidebot = new Cube(shaders,  [orange, black, white, black, red,green] );
 	clsidebot.move(-1.0, X_AXIS);
   	clsidebot.move(-1.0,Y_AXIS);
 	clsidebot.move(ls, Z_AXIS);
+	clsidebot.move(-space, Y_AXIS);
+	clsidebot.move(-space, X_AXIS);
+	clsidebot.move(space*ls, Z_AXIS);
+	
 	drawables.push(clsidebot);
 	
 	}

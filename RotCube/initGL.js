@@ -9,6 +9,9 @@ var gl; // global to hold reference to our WebGL context
 const X_AXIS = 0;
 const Y_AXIS = 1;
 const Z_AXIS = 2;
+
+var camera;
+
 var angle;
 var turnr = false;
 var turnl = false;
@@ -17,8 +20,9 @@ var drawables = [];
 var toprow =[];
 var topindexes = [0,3,6, 9,12,15,18,21,24];
 var botindexes = [2,5,8,11,14,17,20,23,26];
+var rightindexes = [3,4,5,12,13,14,21,22,23];
 var leftindexes = [];
-var rightindexes = [];
+
  // used to store any objects that need to be drawn
 var animate=[];
 /* Initialize global WebGL stuff - not object specific */
@@ -37,8 +41,9 @@ function initGL()
 	
 	// set the projection matrix
 	projection = perspective(30.0, 2.0, 1, 100);
-	projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
-	
+	//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
+	 camera = lookAt([7,10,10], [0,0,0], [0,1,0]);
+
 	/*
 		
 		Notes on projection and camera, different things I tried, and just general messing around.
@@ -95,8 +100,8 @@ function initGL()
         function(){
 			//This button makes projection perspective 
 			projection = perspective(30.0, 2.0, 1, 100);
-			projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
-				
+			//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
+			 camera = lookAt([6,2,7], [0,0,0], [0,1,0]);	
         },
         false
     );
@@ -105,8 +110,8 @@ function initGL()
     d.addEventListener("click",
         function(){
 				//This button makes the projection ortho
-				projection = ortho(-2, 2, -1.5, 1, -1, 100);
-							
+				//projection = ortho(-2, 2, -1.5, 1, -1, 100);
+				camera = lookAt([7,10,10], [0,0,0], [0,1,0]);
         },
         false
     );
@@ -120,15 +125,15 @@ var renderScene = function(){
     // loop over all objects and draw each
     var i, frame;
     for (i in drawables) {
-		if (turn == true&& angle !=90.0*9 && botindexes.indexOf(parseInt(i)) !=-1) 
+		if (turn == true&& angle !=90.0*9 && rightindexes.indexOf(parseInt(i)) !=-1) 
 		{	
-			//alert( i +" "+ topindexes.indexOf(parseInt(i)));
+			//alert( i + " " +rightindexes.indexOf(parseInt(i)))
 			//alert( i +" "+ i.valueOf());
 			if (turnr==true)
-			  drawables[i].orbit(1.0, Y_AXIS);
+			  drawables[i].orbit(1.0, X_AXIS);
 			
 			else 
-				drawables[i].orbit(-1.0, Y_AXIS);
+				drawables[i].orbit(-1.0, X_AXIS);
 			drawables[i].draw();
 			angle+=1.0;
 			if (angle>=90.0*9)

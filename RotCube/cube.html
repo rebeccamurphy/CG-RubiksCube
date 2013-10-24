@@ -19,6 +19,7 @@ attribute vec4 vColor; // vert attribs bound to array buffer data
 varying vec4 color; // sent down to later stages of the pipeline
 
 uniform mat4 projection; // projection matrix passed from the app
+uniform mat4 camera; // camera transformation
 uniform mat4 modeltransform; // per-object transform passed from the app
 
 void main() 
@@ -28,7 +29,7 @@ void main()
     // some per-object matrix ops now done at app level
     // but final matrix chain is processed here
     // It is posible to multiply a lookAt function in here, but i have not been able to get it to work yet. 
-	gl_Position = projection * modeltransform * vPosition ;
+	gl_Position = projection *camera* modeltransform * vPosition ;
 }
   </script>
 
