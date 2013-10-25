@@ -201,31 +201,36 @@ var renderScene = function(){
 			switch(turncolor)
 			{
 				case 'Y':
-					if (drawables[i].pos.turns.indexOf('Y') !=-1)
-					{	console.log(drawables[i].pos.coord);
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+					{	//console.log(drawables[i].pos.coord);
 						drawables[i].orbit(-2.0, Y_AXIS);
+							
+							//console.log(i);
+							//console.log(drawables[i].pos);
+							/*console.log(drawables[i].pos.turns.indexOf(turncolor) !=-1);*/
 					}	
 				break;
 				case 'W':
-					if (drawables[i].pos.turns.indexOf('W') !=-1)
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
 						drawables[i].orbit(2.0, Y_AXIS);
+
 				break;
 				case 'R':
-					if (drawables[i].pos.turns.indexOf('R') !=-1)
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
 						drawables[i].orbit(2.0, Z_AXIS);
 				break;
 				case 'O':
-					if (drawables[i].pos.turns.indexOf('O') !=-1)
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
 						drawables[i].orbit(-2.0, Z_AXIS);
 				break;
 				case 'B':
-					if (drawables[i].pos.turns.indexOf('B') !=-1)
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
 					{	drawables[i].orbit(-2.0, X_AXIS);
-						console.log(drawables[i].pos.coord);
+						//console.log(drawables[i].pos.coord);
 					}
 				break;
 				case 'G':
-					if (drawables[i].pos.turns.indexOf('Y') !=-1)
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
 						drawables[i].orbit(2.0, X_AXIS);
 				break;
 			}
@@ -249,10 +254,13 @@ var renderScene = function(){
 					for (i in drawables)
 					 {
 					 	changepos(drawables[i], turncolor);
+					 	console.log(i);
+						console.log(drawables[i].pos);
 					 }
 					//console.log(drawables[0].pos);
 					turn = false;
 					turncolor = '';
+
 				}
 		}
 		else{ 

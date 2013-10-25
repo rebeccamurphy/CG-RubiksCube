@@ -5,7 +5,72 @@ function position(coord, turns)
 	this.coord = coord;
 	this.turns = turns;
 }
+function makeposindex()
+{
+	var posindex =[];
+	for (var ls =-1; ls<2; ls++)
+	{	
+	pos=0;
+		
+	switch(ls)
+	{
+	case -1:
+	
+	posindex.push(new position([ls, pos], ['Y', 'G','R']));
+	posindex.push(new position([ls,pos+1],[ 'Y', 'R'])); 
+	posindex.push(new position([ls,pos+2],['Y', 'R','B' ]));
+	
+	
+	posindex.push(new position([ls, pos+3],['G', 'R']));
+	posindex.push(new position([ls, pos+4],['R']));
+	posindex.push(new position([ls, pos+5],['R', 'B']));
+	
+	
+	posindex.push(new position([ls, pos+6],['W', 'G', 'R']));
+	posindex.push(new position([ls, pos+7],['W', 'R']));
+	posindex.push(new position([ls, pos+8],['W', 'R', 'B']));
+	
+	break;
+	
+	case 0:
+	
+	posindex.push(new position([ls, pos],['Y', 'G']));
+	posindex.push(new position([ls,pos+1],['Y'] ));
+	posindex.push(new position([ls,pos+2],['Y','B']));
+	
+	posindex.push(new position([ls, pos+3],['G']));
+	posindex.push(new position([ls, pos+4],[]));	
+	posindex.push(new position([ls, pos+5],['B']));
+	
+	posindex.push(new position([ls, pos+6],['W', 'G']));
+	posindex.push(new position([ls, pos+7],['W']));
+	posindex.push(new position([ls, pos+8],['W', 'B'] ));
+	
+	break;
+	
+	case 1:
+	posindex.push(new position([ls, pos],['O','Y', 'G']));
+	posindex.push(new position([ls,pos+1],[ 'O','Y'] ));
+	posindex.push(new position([ls,pos+2],['O','Y', 'B'] ));
+	
+	posindex.push(new position([ls, pos+3],['O', 'G'] ));
+	posindex.push(new position([ls, pos+4],[] ));
+	posindex.push(new position([ls, pos+5],['O', 'B']));
+	
+	posindex.push(new position([ls, pos+6],['O','W', 'G'] ));
+	posindex.push(new position([ls, pos+7],['O','W', 'G']));
+	posindex.push(new position([ls, pos+8],['O','W', 'B']) );
+	
+	break;
+	}
+	}
+	return posindex;
+}
+
+
 var posindex = makeposindex();
+
+
 function getposition(posit, posindex)
 {
 	
@@ -170,77 +235,9 @@ function makesolved(drawables, shaders)
 
 
 
-function makeposindex()
-{
-	var posindex =[];
-	for (var ls =-1; ls<2; ls++)
-	{	
-	pos=0;
-		
-	switch(ls)
-	{
-	case -1:
-	
-	posindex.push(new position([ls, pos], ['Y', 'G','R']));
-	posindex.push(new position([ls,pos+1],[ 'Y', 'R'])); 
-	posindex.push(new position([ls,pos+2],['Y', 'R','B' ]));
-	
-	
-	posindex.push(new position([ls, pos+3],['G', 'R']));
-	posindex.push(new position([ls, pos+4],['R']));
-	posindex.push(new position([ls, pos+5],['R', 'B']));
-	
-	
-	posindex.push(new position([ls, pos+6],['W', 'G', 'R']));
-	posindex.push(new position([ls, pos+7],['W', 'R']));
-	posindex.push(new position([ls, pos+8],['W', 'R', 'B']));
-	
-	break;
-	
-	case 0:
-	
-	posindex.push(new position([ls, pos],['Y', 'G']));
-	posindex.push(new position([ls,pos+1],['Y'] ));
-	posindex.push(new position([ls,pos+2],['Y','B']));
-	
-	posindex.push(new position([ls, pos+3],['G']));
-	posindex.push(new position([ls, pos+4],[]));	
-	posindex.push(new position([ls, pos+5],['B']));
-	
-	posindex.push(new position([ls, pos+6],['W', 'G']));
-	posindex.push(new position([ls, pos+7],['W']));
-	posindex.push(new position([ls, pos+8],['W', 'B'] ));
-	
-	break;
-	
-	case 1:
-	posindex.push(new position([ls, pos],['O','Y', 'G']));
-	posindex.push(new position([ls,pos+1],[ 'O','Y'] ));
-	posindex.push(new position([ls,pos+2],['O','Y', 'B'] ));
-	
-	posindex.push(new position([ls, pos+3],['O', 'G'] ));
-	posindex.push(new position([ls, pos+4],[] ));
-	posindex.push(new position([ls, pos+5],['O', 'B']));
-	
-	posindex.push(new position([ls, pos+6],['O','W', 'G'] ));
-	posindex.push(new position([ls, pos+7],['O','W', 'G']));
-	posindex.push(new position([ls, pos+8],['O','W', 'B']) );
-	
-	break;
-	}
-	}
-	return posindex;
-}
-
-
-
-function changepos(cube, turn) 
+function innerchangeposY(cube)
 {
 
-
-switch(turn)
-{ 
-case 'Y':
 	switch(cube.pos.coord[0]) // how far away
 	{
 		case -1:
@@ -290,19 +287,15 @@ case 'Y':
 				cube.pos = getposition([1,0], posindex);
 			break;
 			}
+		break;	
+}
+}
+function innerchangeposB(cube)
 
-		break;
-	}	
-
-break;
-
-case 'W':
-
-break;
-
-case 'B':
-
-	switch(cube.pos.coord[0]) // how far away
+{
+	console.log('this is the cubes how far away coord: ' + cube.pos.coord[0])
+	console.log('this is the what cube coord: ' + cube.pos.coord[1])
+switch(cube.pos.coord[0]) // how far away
 		{
 			
 		case -1:
@@ -314,33 +307,40 @@ case 'B':
 			break;
 
 			case 5:
-				console.log(cube.pos.turns)
+				
 				cube.pos = getposition([0,8], posindex);
-				console.log(cube.pos.turns)
+				
 			break;
 
 			case 8:
 				cube.pos = getposition([1,8], posindex);
 			break;
 			}
+		break;
 		case 0:
 			switch(cube.pos.coord[1]) // what cube
 			{
 
 			case 2:
+				//console.log(cube.pos);
 				cube.pos = getposition([-1,5], posindex);
+				//console.log(cube.pos);
+				//console.log(cube.pos.turns.indexOf('Y') !=-1);
 			break;
 
 			case 8:
 				cube.pos = getposition([1,5], posindex);
 			break;
 			}
+		break;
 		case 1:
 			switch(cube.pos.coord[1]) // what cube
 			{
 
 			case 2:
+				
 				cube.pos = getposition([-1,2], posindex);
+
 			break;
 
 			case 5:
@@ -351,8 +351,30 @@ case 'B':
 				cube.pos = getposition([1,2], posindex);
 			break;
 			}
+		break;
+}
+}
+
+function changepos(cube, turn) 
+{
+
+switch(turn)
+{ 
+case 'Y':
+	innerchangeposY(cube);
+
 	break;
-	}
+
+case 'W':
+
+break;
+
+case 'B':
+	console.log("cube position before turn:" + cube.pos.coord);
+	innerchangeposB(cube);
+	
+	break;
+	
 case 'G':
 
 break;
