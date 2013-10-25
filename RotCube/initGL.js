@@ -15,6 +15,7 @@ var camera;
 var angle;
 var turnr = false;
 var turnl = false;
+var turncolor="";
 var turn = false;
 var drawables = [];
 var toprow =[];
@@ -62,17 +63,17 @@ function initGL()
 	
 	
     // set up an event handler for this button
-    var a = document.getElementById("Btn_TR");
-    a.addEventListener("click",
+    var y = document.getElementById("Btn_Y");
+    y.addEventListener("click",
         function(){
             /* This button starts 90deg
                 rotation (to the right) of the top cube. */
 				
 				if (turn==false)
 				{
-				angle = 0.0;
+				angle = 0;
 				turn = true;
-				turnr = true;
+				turncolor ='Y';
 				}
 				
         },
@@ -80,7 +81,53 @@ function initGL()
     );
 
     // set up an event handler for this button
-    var b = document.getElementById("Btn_TL");
+    var w = document.getElementById("Btn_W");
+    w.addEventListener("click",
+        function(){
+            /* This button starts a -90deg
+                rotation (to the left) of the top cube. */
+				//turn = true;
+				if (turn == false)
+				{
+				angle = 0.0;
+				turn = true;
+				turncolor = 'W';
+				}
+        },
+        false
+    );
+
+    var r = document.getElementById("Btn_R");
+    r.addEventListener("click",
+        function(){
+            /* This button starts a -90deg
+                rotation (to the left) of the top cube. */
+				//turn = true;
+				if (turn == false)
+				{
+				angle = 0.0;
+				turn = true;
+				turncolor = 'R';
+				}
+        },
+        false
+    );
+    var o = document.getElementById("Btn_O");
+    o.addEventListener("click",
+        function(){
+            /* This button starts a -90deg
+                rotation (to the left) of the top cube. */
+				//turn = true;
+				if (turn == false)
+				{
+				angle = 0.0;
+				turn = true;
+				turncolor = 'O';
+				}
+        },
+        false
+    );
+    var b = document.getElementById("Btn_B");
     b.addEventListener("click",
         function(){
             /* This button starts a -90deg
@@ -90,7 +137,23 @@ function initGL()
 				{
 				angle = 0.0;
 				turn = true;
-				turnl = true;
+				turncolor = 'B';
+				}
+        },
+        false
+    );
+
+    var g = document.getElementById("Btn_G");
+    g.addEventListener("click",
+        function(){
+            /* This button starts a -90deg
+                rotation (to the left) of the top cube. */
+				//turn = true;
+				if (turn == false)
+				{
+				angle = 0.0;
+				turn = true;
+				turncolor = 'G';
 				}
         },
         false
@@ -101,7 +164,7 @@ function initGL()
 			//This button makes projection perspective 
 			projection = perspective(30.0, 2.0, 1, 100);
 			//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
-			 camera = lookAt([6,2,7], [0,0,0], [0,1,0]);	
+			 camera = lookAt([-6,-3,-10], [-1,0,0], [0,1,0]);	
         },
         false
     );
@@ -124,34 +187,63 @@ var renderScene = function(){
 
     // loop over all objects and draw each
     var i, frame;
-	var numcubes =9;
+	var numcubes =27;
     for (i in drawables) {
 
-		if (turn == true&& angle !=90.0*numcubes&& drawables[i].pos.turns.indexOf('B') !=-1 ) 
+		if (turn == true&& angle !=90.0*numcubes ) 
 
 
 		{	//alert(drawables[i].pos.turns);
 			//console.log(drawables[0].pos.turns[0]);
 			//alert( i + " " +rightindexes.indexOf(parseInt(i)))
 			//alert( i +" "+ i.valueOf());
-			if (turnr==true)
+			switch(turncolor)
+			{
+				case 'Y':
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+						drawables[i].orbit(-2.0, Y_AXIS);
+				break;
+				case 'W':
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+						drawables[i].orbit(2.0, Y_AXIS);
+				break;
+				case 'R':
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+						drawables[i].orbit(2.0, Z_AXIS);
+				break;
+				case 'O':
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+						drawables[i].orbit(-2.0, Z_AXIS);
+				break;
+				case 'B':
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+						drawables[i].orbit(-2.0, X_AXIS);
+				break;
+				case 'G':
+					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+						drawables[i].orbit(2.0, X_AXIS);
+				break;
+			}
 
-			  drawables[i].orbit(2.0, X_AXIS);
+			//if (turnr==true)
+
+			 // drawables[i].orbit(2.0, X_AXIS);
 			
-			else 
-				drawables[i].orbit(-2.0, X_AXIS);
+			//else 
+			//	drawables[i].orbit(-2.0, X_AXIS);
 			
 			
 			
 
 			drawables[i].draw();
 			angle+=2.0;
-			if (angle>=90.0*9)
+			if (angle>=90 * numcubes)
 			
 					{
-					turnr = false;
+					
 					turn = false;
-					turnl= false;}
+					turncolor = false;
+				}
 		}
 		/*else if( turn == true&& angle !=90.0*9 && rightindexes.indexOf(parseInt(i)) !=-1)
 		{

@@ -75,11 +75,11 @@ function makesolved(drawables, shaders)
 	var crsidetop = new Cube(shaders, [orange, blue, black, yellow, black,black],new position([ls, pos+2],['O','Y', 'B']) );
 	
 	var clsidemid = new Cube(shaders, [orange, black, black, black, black,green] ,new position([ls, pos+3], ['O', 'G']));
-	var cmid = new Cube(shaders, [orange, black, black, black, black, black] , new position([ls, pos+4],[]) );
+	var cmid = new Cube(shaders, [orange, black, black, black, black, black] , new position([ls, pos+4],['O']) );
 	var crsidemid = new Cube(shaders, [orange, blue, black, black, black,black] ,new position([ls, pos+5], ['O', 'B']));
 	
 	var clsidebot = new Cube(shaders,  [orange, black, white, black, black,green], new position([ls, pos+6],['O','W', 'G']) );
-	var cbot = new Cube(shaders, [orange, black, white, black, black,black] ,new position([ls, pos+7],['0','W', 'G']) );
+	var cbot = new Cube(shaders, [orange, black, white, black, black,black] ,new position([ls, pos+7],['O','W']) );
 	var crsidebot = new Cube(shaders, [orange, blue, white, black, black,black] ,new position([ls, pos+8],['O','W', 'B']));
 	
 	break;
@@ -237,6 +237,7 @@ case 'Y':
 			switch(cube.pos.position[1])
 			{
 			case 0:
+
 			break;
 
 			case 1:
