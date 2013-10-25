@@ -186,6 +186,7 @@ var renderScene = function(){
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // loop over all objects and draw each
+    //HEY change numcubes
     var i, frame;
 	var numcubes =27;
     for (i in drawables) {
@@ -200,27 +201,31 @@ var renderScene = function(){
 			switch(turncolor)
 			{
 				case 'Y':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+					if (drawables[i].pos.turns.indexOf('Y') !=-1)
+					{	console.log(drawables[i].pos.coord);
 						drawables[i].orbit(-2.0, Y_AXIS);
+					}	
 				break;
 				case 'W':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+					if (drawables[i].pos.turns.indexOf('W') !=-1)
 						drawables[i].orbit(2.0, Y_AXIS);
 				break;
 				case 'R':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+					if (drawables[i].pos.turns.indexOf('R') !=-1)
 						drawables[i].orbit(2.0, Z_AXIS);
 				break;
 				case 'O':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+					if (drawables[i].pos.turns.indexOf('O') !=-1)
 						drawables[i].orbit(-2.0, Z_AXIS);
 				break;
 				case 'B':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(-2.0, X_AXIS);
+					if (drawables[i].pos.turns.indexOf('B') !=-1)
+					{	drawables[i].orbit(-2.0, X_AXIS);
+						console.log(drawables[i].pos.coord);
+					}
 				break;
 				case 'G':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
+					if (drawables[i].pos.turns.indexOf('Y') !=-1)
 						drawables[i].orbit(2.0, X_AXIS);
 				break;
 			}
@@ -241,27 +246,15 @@ var renderScene = function(){
 			
 					{
 					
+					for (i in drawables)
+					 {
+					 	changepos(drawables[i], turncolor);
+					 }
+					//console.log(drawables[0].pos);
 					turn = false;
-					turncolor = false;
+					turncolor = '';
 				}
 		}
-		/*else if( turn == true&& angle !=90.0*9 && rightindexes.indexOf(parseInt(i)) !=-1)
-		{
-		if (turnl==true)
-			  drawables[i].orbit(1.0, X_AXIS);
-			
-		//	else 
-		//		drawables[i].orbit(-1.0, Z_AXIS);
-			drawables[i].draw();
-			angle+=1.0;
-			if (angle>=90.0*9)
-			
-					{
-					turnr = false;
-					turn = false;
-					turnl= false;}
-		}
-		*/
 		else{ 
         drawables[i].draw();
 		}

@@ -1,16 +1,19 @@
 
 
-function position(position, turns)
+function position(coord, turns)
 {
-	this.position = position;
+	this.coord = coord;
 	this.turns = turns;
 }
-function getposition(pos, posindex)
+var posindex = makeposindex();
+function getposition(posit, posindex)
 {
-	for (var i =0; i< posindex.length(); i++)
+	
+	for (var i =0; i< posindex.length; i++)
 	{
-		if (posindex[i].pos == pos )
-			return posindex[i]
+		if (posindex[i].coord.toString() == posit.toString() )
+			
+			return posindex[i];
 	}
 
 }
@@ -29,6 +32,7 @@ function makesolved(drawables, shaders)
 	//mid
 	var space = .1;
 	var pos =0;
+	//var ls = 1;
 	for (var ls =-1; ls <2; ls++)
 	{
 	pos =0;
@@ -89,19 +93,18 @@ function makesolved(drawables, shaders)
 	ctop.move(ls, Z_AXIS);
 	ctop.move(space, Y_AXIS);
 	ctop.move(space*ls, Z_AXIS);
-	drawables.push(ctop);
-    toprow.push(ctop);
+	
 	
 	cmid.move(ls, Z_AXIS);
 	cmid.move(space*ls, Z_AXIS);
-	drawables.push(cmid);
+	
 	
 	//center bottom
 	cbot.move(-1.0,Y_AXIS);
 	cbot.move(ls, Z_AXIS);
 	cbot.move(-space, Y_AXIS);
 	cbot.move(space*ls, Z_AXIS);
-	drawables.push(cbot)
+	
 	}
 	
 	crsidetop.move(1.0, X_AXIS);
@@ -110,15 +113,12 @@ function makesolved(drawables, shaders)
 	crsidetop.move(space, Y_AXIS);
 	crsidetop.move(space, X_AXIS);
 	crsidetop.move(space*ls, Z_AXIS);
-	drawables.push(crsidetop);
-	toprow.push(crsidetop);
-	
 	
 	crsidemid.move(1.0, X_AXIS);
 	crsidemid.move(ls, Z_AXIS);
 	crsidemid.move(space, X_AXIS);
 	crsidemid.move(space*ls, Z_AXIS);
-	drawables.push(crsidemid);
+	
 	
 	
 	crsidebot.move(1.0, X_AXIS);
@@ -128,7 +128,6 @@ function makesolved(drawables, shaders)
 	crsidebot.move(space, X_AXIS);
 	crsidebot.move(space*ls, Z_AXIS);
 	
-	drawables.push(crsidebot);
 	
 	//left
 	
@@ -138,15 +137,12 @@ function makesolved(drawables, shaders)
 	clsidetop.move(space, Y_AXIS);
 	clsidetop.move(-space, X_AXIS);
 	clsidetop.move(space*ls, Z_AXIS);
-	drawables.push(clsidetop);
-	toprow.push(clsidetop);
 	
 
 	clsidemid.move(-1.0, X_AXIS);
 	clsidemid.move(ls, Z_AXIS);
 	clsidemid.move(-space, X_AXIS);
 	clsidemid.move(space*ls, Z_AXIS);
-	drawables.push(clsidemid);
 	
 	
 	clsidebot.move(-1.0, X_AXIS);
@@ -156,7 +152,17 @@ function makesolved(drawables, shaders)
 	clsidebot.move(-space, X_AXIS);
 	clsidebot.move(space*ls, Z_AXIS);
 	
-	drawables.push(clsidebot);
+	drawables.push( clsidetop);  
+	drawables.push( ctop);
+	drawables.push( crsidetop );
+	
+	drawables.push( clsidemid);
+	drawables.push( cmid  );
+	drawables.push( crsidemid );
+	
+	drawables.push( clsidebot );
+	drawables.push( cbot  );
+	drawables.push( crsidebot);
 	
 	}
 	return drawables;
@@ -223,52 +229,68 @@ function makeposindex()
 	break;
 	}
 	}
+	return posindex;
 }
 
-var posindex = makeposindex();
+
+
 function changepos(cube, turn) 
 {
+
+
 switch(turn)
 { 
 case 'Y':
-	switch(cube.pos.position[0])
+	switch(cube.pos.coord[0]) // how far away
 	{
 		case -1:
-			switch(cube.pos.position[1])
+			switch(cube.pos.coord[1]) // what cube
 			{
 			case 0:
-
+				cube.pos = getposition([-1,2], posindex);
 			break;
 
 			case 1:
+				cube.pos = getposition([0,2], posindex);
 			break;
 
 			case 2:
+				cube.pos = getposition([1,2], posindex);
+			break;
+			}
+		break;
+		
+		console.log (cube.pos);
+		case 0:
+			switch(cube.pos.coord[1]) // what cube
+			{
+			case 0:
+				cube.pos = getposition([-1,1], posindex);
 			break;
 
-			case 3:
-			break;
-
-			case 4:
-			break;
-
-			case 5:
-			break;
-
-			case 6:
-			break;
-
-			case 8:
+			case 2:
+				cube.pos = getposition([1,1], posindex);
 			break;
 			}
 		break;
 		
 
-		case 0:
-		break;
-		
-
 		case 1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+			case 0:
+				cube.pos = getposition([-1,0], posindex);
+			break;
+
+			case 1:
+				cube.pos = getposition([0,0], posindex);
+			break;
+
+			case 2:
+				cube.pos = getposition([1,0], posindex);
+			break;
+			}
+
 		break;
 	}	
 
@@ -280,8 +302,57 @@ break;
 
 case 'B':
 
-break;
+	switch(cube.pos.coord[0]) // how far away
+		{
+			
+		case -1:
+			switch(cube.pos.coord[1]) // what cube
+			{
 
+			case 2:
+				cube.pos = getposition([-1,8], posindex);
+			break;
+
+			case 5:
+				console.log(cube.pos.turns)
+				cube.pos = getposition([0,8], posindex);
+				console.log(cube.pos.turns)
+			break;
+
+			case 8:
+				cube.pos = getposition([1,8], posindex);
+			break;
+			}
+		case 0:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 2:
+				cube.pos = getposition([-1,5], posindex);
+			break;
+
+			case 8:
+				cube.pos = getposition([1,5], posindex);
+			break;
+			}
+		case 1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 2:
+				cube.pos = getposition([-1,2], posindex);
+			break;
+
+			case 5:
+				cube.pos = getposition([0,2], posindex);
+			break;
+
+			case 8:
+				cube.pos = getposition([1,2], posindex);
+			break;
+			}
+	break;
+	}
 case 'G':
 
 break;
