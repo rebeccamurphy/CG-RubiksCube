@@ -127,9 +127,11 @@ var renderScene = function(){
 	var numcubes =9;
     for (i in drawables) {
 
-		if (turn == true&& angle !=90.0*numcubes && drawables[i].turnsides.indexOf('B') !=-1) 
+		if (turn == true&& angle !=90.0*numcubes&& drawables[i].pos.turns.indexOf('B') !=-1 ) 
 
-		{	// 
+
+		{	//alert(drawables[i].pos.turns);
+			//console.log(drawables[0].pos.turns[0]);
 			//alert( i + " " +rightindexes.indexOf(parseInt(i)))
 			//alert( i +" "+ i.valueOf());
 			if (turnr==true)

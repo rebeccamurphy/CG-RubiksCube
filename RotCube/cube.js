@@ -25,16 +25,15 @@ Notes on functions taken in class.
 // gl_Position = projection * modelview *vposition; 
  
  */
-var Cube = function (program, facecolors, turnsides, pos) { this.init(program, facecolors, turnsides, pos); }
+var Cube = function (program, facecolors, pos) { this.init(program, facecolors, pos); }
 
 /* Initialize properties of this color cube object. */
-Cube.prototype.init = function(program, facecolors, turnsides, pos)
+Cube.prototype.init = function(program, facecolors, pos)
 {
     this.points = []; // this array will hold raw vertex positions
     this.colors = []; // this array will hold per-vertex color data
     this.transform = mat4(); // initialize object transform as identity matrix
 	this.facecolors = facecolors;
-	this.turnsides = turnsides;
 	this.pos = pos;
     // TODO make sure we pass the face colors into this call
     this.mkcube(); // delegate to auxiliary function
