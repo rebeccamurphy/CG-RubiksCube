@@ -186,7 +186,7 @@ Cube.prototype.orbit = function(angle, axis){
 /* Set up event callback to start the application */
 window.onload = function() {
     initGL(); // basic WebGL setup for the scene 
-
+    addfile();
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
 	//for facecolors [forward side, right side, bottom side, top side, back side, left side]  

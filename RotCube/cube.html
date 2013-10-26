@@ -53,11 +53,16 @@ main()
   <script type="text/javascript" src="initGL.js"></script>
   <script type="text/javascript" src="cube.js"></script>
   <script type="text/javascript" src="rubiksfunctions.js"></script>
+  <script type="text/javascript" src="filereader.js"></script>
+
+
+
 </head>
 <body style="background-color:black;text-align:center;">
     <canvas id="gl-canvas" width="1024" height="768">Oops ...
         your browser doesn't support the HTML5 canvas element</canvas>
     <div>
+        
         <button id = "Btn_OV">Normal View</button>
         <button id = "Btn_PV">Bottom Back View</button>
 		    
@@ -67,8 +72,14 @@ main()
         <button id = "Btn_O">Turn Orange</button>
         <button id = "Btn_B">Turn Blue</button>
         <button id = "Btn_G">Turn Green</button>
-	
-        
+	       
+         <p style="color:white";align="left">Use this button to select a Cube
+        <input type="file" id="cubeinput" />
+      </p>
+        <p style="color:white";align="right">Use this button to select Solution
+        <input type="file" id="solinput" />        
+        </p>
+    
     </div>
 </body>
 </html>
