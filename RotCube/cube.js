@@ -69,6 +69,7 @@ Cube.prototype.draw = function(){
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
     // map buffer data to the vertex shader attribute
+    /*
     var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
     var lightAmbient = vec4(0.2, 0.2, 0.2, 10 );
     var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
@@ -88,7 +89,7 @@ Cube.prototype.draw = function(){
     gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
     gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
     gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
-
+    */
 
     var vColorId = gl.getAttribLocation( this.program, "vColor" );
     gl.vertexAttribPointer( vColorId, 4, gl.FLOAT, false, 0, 0 );
