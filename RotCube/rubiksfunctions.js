@@ -309,7 +309,7 @@ switch(cube.pos.coord[0]) // how far away
 
 			case 7:
 				
-				cube.pos = getposition([0,7], posindex);
+				cube.pos = getposition([0,6], posindex);
 				
 			break;
 
@@ -424,7 +424,7 @@ function innerchangeposG(cube)
 
 switch(cube.pos.coord[0]) // how far away
 		{
-			
+		
 		case -1:
 			switch(cube.pos.coord[1]) // what cube
 			{
