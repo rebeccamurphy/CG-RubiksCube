@@ -12,20 +12,17 @@ const Z_AXIS = 2;
 
 var camera;
 
-var angle;
+var angle=0;
 var turnr = false;
 var turnl = false;
 var turncolor="";
 var turn = false;
 var drawables = [];
-var toprow =[];
-var topindexes = [0,3,6, 9,12,15,18,21,24];
-var botindexes = [2,5,8,11,14,17,20,23,26];
-var rightindexes = [3,4,5,12,13,14,21,22,23];
-var leftindexes = [];
+var anistart = false;
+var reani = 0;
 
  // used to store any objects that need to be drawn
-var animate=[];
+var animate= false;
 /* Initialize global WebGL stuff - not object specific */
 function initGL()
 {
@@ -63,114 +60,19 @@ function initGL()
 	
 	
     // set up an event handler for this button
-    var y = document.getElementById("Btn_Y");
-    y.addEventListener("click",
-        function(){
-            /* This button starts 90deg
-                rotation (to the right) of the top cube. */
-				
-				if (turn==false)
-				{
-				angle = 0;
-				turn = true;
-				turncolor ='Y';
-				}
-				
-        },
-        false
-    );
-
-    // set up an event handler for this button
-    var w = document.getElementById("Btn_W");
-    w.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'W';
-				}
-        },
-        false
-    );
-
-    var r = document.getElementById("Btn_R");
-    r.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'R';
-				}
-        },
-        false
-    );
-    var o = document.getElementById("Btn_O");
-    o.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'O';
-				}
-        },
-        false
-    );
-    var b = document.getElementById("Btn_B");
-    b.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'B';
-				}
-        },
-        false
-    );
-
-    var g = document.getElementById("Btn_G");
-    g.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'G';
-				}
-        },
-        false
-    );
-	    var c = document.getElementById("Btn_PV");
+	var c = document.getElementById("Btn_PV");
     c.addEventListener("click",
         function(){
 			//This button makes projection perspective 
-			projection = perspective(30.0, 2.0, 1, 100);
+			//projection = perspective(30.0, 2.0, 1, 100);
 			//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
 			 camera = lookAt([-6,-3,-10], [-1,0,0], [0,1,0]);	
         },
         false
     );
-	
-	 var d = document.getElementById("Btn_OV");
-    d.addEventListener("click",
+
+    var e = document.getElementById("Btn_OV");
+    e.addEventListener("click",
         function(){
 				//This button makes the projection ortho
 				//projection = ortho(-2, 2, -1.5, 1, -1, 100);
@@ -178,95 +80,48 @@ function initGL()
         },
         false
     );
-}
 
+
+	var ani = document.getElementById("Btn_Ani");
+    ani.addEventListener("click",
+        function(){
+           		
+			
+           		if (animate==false && solution!=[])
+           		{
+           		
+           		if (cubenum >1||reani>0)
+           		{	definecubecolors(cubetext);
+				}
+				animate =true;
+				anistart =true;
+				reani+=1;
+				step=0;
+				turncount=0;
+				}
+				else
+					alert ('Please upload new solution text.');
+        },
+        false
+    );
+    
+}
 /* Global render callback - would draw multiple objects if there were more than one */
+step=0, turncount =0;
 var renderScene = function(){
     // start from a clean frame buffer for this frame
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // loop over all objects and draw each
     //HEY change numcubes
-    var i, frame;
-	var numcubes =27;
-    for (i in drawables) {
-
-		if (turn == true&& angle !=90.0*numcubes ) 
-
-
-		{	//alert(drawables[i].pos.turns);
-			//console.log(drawables[0].pos.turns[0]);
-			//alert( i + " " +rightindexes.indexOf(parseInt(i)))
-			//alert( i +" "+ i.valueOf());
-			switch(turncolor)
-			{
-				case 'Y':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-					{	//console.log(drawables[i].pos.coord);
-						drawables[i].orbit(-2.0, Y_AXIS);
-							
-							//console.log(i);
-							//console.log(drawables[i].pos);
-							/*console.log(drawables[i].pos.turns.indexOf(turncolor) !=-1);*/
-					}	
-				break;
-				case 'W':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(2.0, Y_AXIS);
-
-				break;
-				case 'R':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(2.0, Z_AXIS);
-				break;
-				case 'O':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(-2.0, Z_AXIS);
-				break;
-				case 'B':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-					{	drawables[i].orbit(-2.0, X_AXIS);
-						//console.log(drawables[i].pos.coord);
-					}
-				break;
-				case 'G':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(2.0, X_AXIS);
-				break;
-			}
-
-			//if (turnr==true)
-
-			 // drawables[i].orbit(2.0, X_AXIS);
-			
-			//else 
-			//	drawables[i].orbit(-2.0, X_AXIS);
-			
-			
-			
-
-			drawables[i].draw();
-			angle+=2.0;
-			if (angle>=90 * numcubes)
-			
-					{
-					
-					for (i in drawables)
-					 {
-					 	changepos(drawables[i], turncolor);
-					 	console.log(i);
-						console.log(drawables[i].pos);
-					 }
-					//console.log(drawables[0].pos);
-					turn = false;
-					turncolor = '';
-
-				}
-		}
-		else{ 
-        drawables[i].draw();
-		}
-    }
+    if (anistart == true)
+    {  
+    	animatecubes()
+		//window.setTimeout(function(){animatecubes()}, 10000);
+		anistart =false; 
+	}
+	else
+		animatecubes();
 
     // queue up this same callback for the next frame
     requestAnimFrame(renderScene);

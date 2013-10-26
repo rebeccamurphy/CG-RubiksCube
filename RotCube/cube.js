@@ -25,6 +25,7 @@ Notes on functions taken in class.
 // gl_Position = projection * modelview *vposition; 
  
  */
+
 var Cube = function (program, facecolors, pos) { this.init(program, facecolors, pos); }
 
 /* Initialize properties of this color cube object. */
@@ -68,6 +69,28 @@ Cube.prototype.draw = function(){
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
     // map buffer data to the vertex shader attribute
+    /*
+    var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
+    var lightAmbient = vec4(0.2, 0.2, 0.2, 10 );
+    var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
+    var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+
+    var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
+    var materialDiffuse = vec4( 0.5, 0.5, 0.5, 0.5 );
+    var materialSpecular = vec4( 2.0, 2.0, 2.0, 2.0 );
+    var materialShininess = 5.0;
+    
+    var ambientProduct = mult(lightAmbient, materialAmbient);
+    var diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    var specularProduct = mult(lightSpecular, materialSpecular);
+
+    gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
+    gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
+    gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
+    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
+    gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
+    */
+
     var vColorId = gl.getAttribLocation( this.program, "vColor" );
     gl.vertexAttribPointer( vColorId, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vColorId );
@@ -186,12 +209,9 @@ Cube.prototype.orbit = function(angle, axis){
 /* Set up event callback to start the application */
 window.onload = function() {
     initGL(); // basic WebGL setup for the scene 
-
+    addfile();
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
-	//for facecolors [forward side, right side, bottom side, top side, back side, left side]  
-	//for facecolors [orange, blue, white, yellow, red,green]  
-		// for colors 0 = black, 1 = red, 2 = yellow, 3 = green, 4 = blue, 5 = magenta, 6 = white, 7 = cyan
-	drawables = makesolved(drawables, shaders);
+    //drawables = makesolved(drawables, shaders);
     renderScene(); // begin render loop
 }
