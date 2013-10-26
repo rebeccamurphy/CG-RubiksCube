@@ -84,33 +84,22 @@ function initGL()
 	var ani = document.getElementById("Btn_Ani");
     ani.addEventListener("click",
         function(){
-           
-				if (animate ==false)
-				{	
-					animate =true;
-					animate1=true;
-				}
-        },
-        false
-    );
-    var Reani = document.getElementById("Btn_ReAni");
-    Reani.addEventListener("click",
-        function(){
-        		if (animate1==false)
-           			alert("Pssst. Hey. You're supposed to press animate /before/ reanimate.");
-           		else if (animate==false)
+           		
+			
+           		if (animate==false && solution!=[])
            		{
            		drawables = []
 				animate =true;
 				definecubecolors(cubetext);
 				step=0;
-				solutiontext='';
-				solution=[];
-				definesolution(solutiontext);
+				turncount=0;
 				}
+				else
+					alert ('Please upload new solution text.');
         },
         false
     );
+    
 }
 /* Global render callback - would draw multiple objects if there were more than one */
 step=0, turncount =0;

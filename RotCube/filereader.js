@@ -25,7 +25,7 @@ function definecubecolors(text)
   var bottomside = text.substr(45, 9);
   drawables = [];
   makecube(drawables, initShaders( gl, "vertex-shader", "fragment-shader" ), backside, leftside, topside, rightside,frontside,bottomside);
-console.log(solution);
+
 }
 
 
