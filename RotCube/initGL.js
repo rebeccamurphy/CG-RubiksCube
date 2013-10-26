@@ -18,7 +18,8 @@ var turnl = false;
 var turncolor="";
 var turn = false;
 var drawables = [];
-var animate1 = false;
+var anistart = false;
+var reani = 0;
 
  // used to store any objects that need to be drawn
 var animate= false;
@@ -88,9 +89,13 @@ function initGL()
 			
            		if (animate==false && solution!=[])
            		{
-           		drawables = []
+           		
+           		if (cubenum >1||reani>0)
+           		{	definecubecolors(cubetext);
+				}
 				animate =true;
-				definecubecolors(cubetext);
+				anistart =true;
+				reani+=1;
 				step=0;
 				turncount=0;
 				}
@@ -109,47 +114,14 @@ var renderScene = function(){
 
     // loop over all objects and draw each
     //HEY change numcubes
-    var i;
-	var numcubes =27;
-    for (i in drawables) {
-
-    	//MAKE THIS INTO FUNCTION AND DO A TIMEOUT ON THAT FUNCTION.
-		//if (turn == true&& angle !=90.0*numcubes  ) 
-		if (animate == true&& angle !=90.0*numcubes  ) 
-
-
-		{	
-			animation(solution[step].charAt(0), i);
-
-			drawables[i].draw();
-			angle+=2.0;
-			if (angle>=90 * numcubes)
-					
-					{
-					for (i in drawables)
-					 {
-					 	changepos(drawables[i], solution[step].charAt(0));
-					 	
-					 }
-					//HEY add something for animate here.
-					angle =0;
-					turn = false;
-					turncolor ='';
-					turncount+=1;
-					if (turncount == parseInt(solution[step].charAt(1)))
-					{	
-						step+=1;
-						turncount=0;
-						if (step== solution.length)
-							animate = false;
-					}
-
-				}
-		}
-		else{ 
-        drawables[i].draw();
-		}
-    }
+    if (anistart == true)
+    {  
+    	animatecubes()
+		//window.setTimeout(function(){animatecubes()}, 10000);
+		anistart =false; 
+	}
+	else
+		animatecubes();
 
     // queue up this same callback for the next frame
     requestAnimFrame(renderScene);

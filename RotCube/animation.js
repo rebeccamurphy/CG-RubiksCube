@@ -34,3 +34,47 @@ switch (turncolor)			{
 			}
 
 }
+
+	var i;
+	var numcubes =27;
+function animatecubes(){
+    for (i in drawables) {
+
+    	//MAKE THIS INTO FUNCTION AND DO A TIMEOUT ON THAT FUNCTION.
+		//if (turn == true&& angle !=90.0*numcubes  ) 
+		if (animate == true&& angle !=90.0*numcubes  ) 
+
+
+		{	
+			animation(solution[step].charAt(0), i);
+
+			drawables[i].draw();
+			angle+=2.0;
+			if (angle>=90 * numcubes)
+					
+					{
+					for (i in drawables)
+					 {
+					 	changepos(drawables[i], solution[step].charAt(0));
+					 	
+					 }
+					//HEY add something for animate here.
+					angle =0;
+					turn = false;
+					turncolor ='';
+					turncount+=1;
+					if (turncount == parseInt(solution[step].charAt(1)))
+					{	
+						step+=1;
+						turncount=0;
+						if (step== solution.length)
+							animate = false;
+					}
+
+				}
+		}
+		else{ 
+        drawables[i].draw();
+		}
+    }
+}

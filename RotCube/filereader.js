@@ -1,4 +1,5 @@
 var cubetext ="";
+var cubenum = 0;
 var solutiontext="";
 var solution =[];
 
@@ -40,6 +41,7 @@ function readCubeFile(evt) {
         var contents = e.target.result;
         cubetext = contents;
         definecubecolors(cubetext);
+        cubenum+=1;
       }
       r.readAsText(f);
     } else { 
