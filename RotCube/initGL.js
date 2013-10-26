@@ -18,7 +18,7 @@ var turnl = false;
 var turncolor="";
 var turn = false;
 var drawables = [];
-
+var animate1 = false;
 
  // used to store any objects that need to be drawn
 var animate= false;
@@ -59,102 +59,7 @@ function initGL()
 	
 	
     // set up an event handler for this button
-    var y = document.getElementById("Btn_Y");
-    y.addEventListener("click",
-        function(){
-            /* This button starts 90deg
-                rotation (to the right) of the top cube. */
-				
-				if (turn==false)
-				{
-				angle = 0;
-				turn = true;
-				turncolor ='Y';
-				}
-				
-        },
-        false
-    );
-
-    // set up an event handler for this button
-    var w = document.getElementById("Btn_W");
-    w.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'W';
-				}
-        },
-        false
-    );
-
-    var r = document.getElementById("Btn_R");
-    r.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'R';
-				}
-        },
-        false
-    );
-    var o = document.getElementById("Btn_O");
-    o.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'O';
-				}
-        },
-        false
-    );
-    var b = document.getElementById("Btn_B");
-    b.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'B';
-				}
-        },
-        false
-    );
-
-    var g = document.getElementById("Btn_G");
-    g.addEventListener("click",
-        function(){
-            /* This button starts a -90deg
-                rotation (to the left) of the top cube. */
-				//turn = true;
-				if (turn == false)
-				{
-				angle = 0.0;
-				turn = true;
-				turncolor = 'G';
-				}
-        },
-        false
-    );
-	    var c = document.getElementById("Btn_PV");
+	var c = document.getElementById("Btn_PV");
     c.addEventListener("click",
         function(){
 			//This button makes projection perspective 
@@ -180,8 +85,29 @@ function initGL()
     ani.addEventListener("click",
         function(){
            
-				
+				if (animate ==false)
+				{	
+					animate =true;
+					animate1=true;
+				}
+        },
+        false
+    );
+    var Reani = document.getElementById("Btn_ReAni");
+    Reani.addEventListener("click",
+        function(){
+        		if (animate1==false)
+           			alert("Pssst. Hey. You're supposed to press animate /before/ reanimate.");
+           		else if (animate==false)
+           		{
+           		drawables = []
 				animate =true;
+				definecubecolors(cubetext);
+				step=0;
+				solutiontext='';
+				solution=[];
+				definesolution(solutiontext);
+				}
         },
         false
     );
@@ -221,7 +147,7 @@ var renderScene = function(){
 					turncolor ='';
 					turncount+=1;
 					if (turncount == parseInt(solution[step].charAt(1)))
-					{	console.log('gothere');
+					{	
 						step+=1;
 						turncount=0;
 						if (step== solution.length)
