@@ -34,7 +34,8 @@ function initGL()
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     gl.viewport( 0, 0, canvas.width, canvas.height ); // use the whole canvas
-    gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // background color
+    // black gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // background color
+    gl.clearColor( 0.0, 5.0, 0.0, 1.0 ); // background color
     gl.enable(gl.DEPTH_TEST); // required for 3D hidden-surface elimination
 	
 	// set the projection matrix

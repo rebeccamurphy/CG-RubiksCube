@@ -36,6 +36,7 @@ Cube.prototype.init = function(program, facecolors, pos)
     this.transform = mat4(); // initialize object transform as identity matrix
 	this.facecolors = facecolors;
 	this.pos = pos;
+    this.vertexNormals =[];
     // TODO make sure we pass the face colors into this call
     this.mkcube(); // delegate to auxiliary function
 	
@@ -51,7 +52,11 @@ Cube.prototype.init = function(program, facecolors, pos)
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBufferId ); // set active array buffer
     /* send vert positions to the buffer, must repeat this
        wherever we change the vert positions for this cube */
+
+    //creates vertex buffer   
     gl.bufferData( gl.ARRAY_BUFFER, flatten(this.points), gl.STATIC_DRAW );
+
+    console.log (this.points);
 }
 
 Cube.prototype.draw = function(){
@@ -69,27 +74,42 @@ Cube.prototype.draw = function(){
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
     // map buffer data to the vertex shader attribute
-    /*
-    var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
-    var lightAmbient = vec4(0.2, 0.2, 0.2, 10 );
-    var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
+    /* OLD LIGHTING CODE*/
+    //normal vectors?
+    var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
+    var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
+    var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
     var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
-    var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
-    var materialDiffuse = vec4( 0.5, 0.5, 0.5, 0.5 );
-    var materialSpecular = vec4( 2.0, 2.0, 2.0, 2.0 );
-    var materialShininess = 5.0;
+    var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
+    var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0);
+    var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
+    var materialShininess = 100.0;
     
-    var ambientProduct = mult(lightAmbient, materialAmbient);
-    var diffuseProduct = mult(lightDiffuse, materialDiffuse);
-    var specularProduct = mult(lightSpecular, materialSpecular);
+    ambientProduct = mult(lightAmbient, materialAmbient);
+    diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    specularProduct = mult(lightSpecular, materialSpecular);
 
-    gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
-    gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
-    gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
-    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
-    gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
-    */
+    gl.uniform4fv(gl.getUniformLocation(this.program, "ambientProduct"),
+       flatten(ambientProduct));
+    gl.uniform4fv(gl.getUniformLocation(this.program, "diffuseProduct"),
+       flatten(diffuseProduct) );
+    gl.uniform4fv(gl.getUniformLocation(this.program, "specularProduct"), 
+       flatten(specularProduct) );  
+    gl.uniform4fv(gl.getUniformLocation(this.program, "lightPosition"), 
+       flatten(lightPosition) );
+    
+    gl.uniform1f(gl.getUniformLocation(this.program, "shininess"),materialShininess);
+
+    var nBuffer = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(this.vertexNormals), gl.STATIC_DRAW );
+    
+    var vNormal = gl.getAttribLocation( this.program, "vNormal" );
+    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
+
+    thetaLoc = gl.getUniformLocation(this.program, "theta"); 
 
     var vColorId = gl.getAttribLocation( this.program, "vColor" );
     gl.vertexAttribPointer( vColorId, 4, gl.FLOAT, false, 0, 0 );
@@ -100,6 +120,8 @@ Cube.prototype.draw = function(){
     var vPosId = gl.getAttribLocation( this.program, "vPosition" );
     gl.vertexAttribPointer( vPosId, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosId );
+
+
 
     // now push buffer data through the pipeline to render this object
     gl.drawArrays( gl.TRIANGLES, 0, this.numverts() );
@@ -133,31 +155,40 @@ Cube.prototype.vcolors = [
     [ 0.0, 1.0, 1.0, 1.0 ]  // cyan
 ];
 
-/*
-    Build one of the faces for this cube object.
 
-    TODO change this so that we specify a single color (via a
-        parameter) for the quad face instead of using vcolors
-*/
+// e is for color. 
 Cube.prototype.mkquad = function(a, b, c, d, e)
 {
+    //make normal vector
+        var t1 = subtract(this.vertices[b], this.vertices[a]);
+        var t2 = subtract(this.vertices[c], this.vertices[b]);
+        var normal = cross(t1, t2);
+        var normal = vec3(normal);
+        normal = normalize(normal);
+
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( vec4(e) );
-
+    this.vertexNormals.push(normal);
+    
     this.points.push( vec4(this.vertices[b]) );
     this.colors.push( vec4(e) );
+    this.vertexNormals.push(normal);
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( vec4(e) );
+    this.vertexNormals.push(normal);
 
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( vec4(e) );
+    this.vertexNormals.push(normal);
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( vec4(e) );
+    this.vertexNormals.push(normal);
 
     this.points.push( vec4(this.vertices[d]) );
     this.colors.push( vec4(e) );
+    this.vertexNormals.push(normal);
 }
 
 /*
@@ -210,8 +241,17 @@ Cube.prototype.orbit = function(angle, axis){
 window.onload = function() {
     initGL(); // basic WebGL setup for the scene 
     addfile();
+    var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
+    var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
+    var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
+    var yellow =[ 1.0, 1.0, 0.0, 1.0 ]; // yellow
+    var green =[ 0.0, 1.0, 0.0, 1.0 ]; // green
+    var blue =[ 0.0, 0.0, 1.0, 1.0 ]; // blue
+    var magenta=[ 1.0, 0.0, 1.0, 1.0 ]; // magenta
+    var white =[ 1.0, 1.0, 1.0, 1.0 ]; // white
+    var cyan = [ 0.0, 1.0, 1.0, 1.0 ]; // cyan
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
-    //drawables = makesolved(drawables, shaders);
+    drawables.push (new Cube(shaders, [black, black, black, yellow, red,green] , posindex [0] ));
     renderScene(); // begin render loop
 }
