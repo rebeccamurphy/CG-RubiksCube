@@ -539,35 +539,35 @@ switch(cube.pos.coord[0]) // how far away
 			{
 
 			case 0:
-				cube.pos = getposition([1,6], posindex);
+				cube.pos = getposition([1,2], posindex);
 			break;
 
 			case 1:
-				cube.pos = getposition([1,3], posindex);
+				cube.pos = getposition([1,5], posindex);
 			break;
 
 			case 2:
-				cube.pos = getposition([1,0], posindex);
-			break;
-
-			case 3:
-				cube.pos = getposition([1,7], posindex);
-			break;
-
-			case 5:
-				cube.pos = getposition([1,1], posindex);
-			break;
-
-			case 6:
 				cube.pos = getposition([1,8], posindex);
 			break;
 
+			case 3:
+				cube.pos = getposition([1,1], posindex);
+			break;
+
+			case 5:
+				cube.pos = getposition([1,7], posindex);
+			break;
+
+			case 6:
+				cube.pos = getposition([1,0], posindex);
+			break;
+
 			case 7:
-				cube.pos = getposition([1,5], posindex);
+				cube.pos = getposition([1,3], posindex);
 			break;
 			
 			case 8:
-				cube.pos = getposition([1,2], posindex);
+				cube.pos = getposition([1,6], posindex);
 			break;
 			}
 		break;
