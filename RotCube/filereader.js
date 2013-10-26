@@ -1,6 +1,33 @@
 var cubetext ="";
 var solutiontext="";
 
+String.prototype.killWhiteSpace = function() {
+    return this.replace(/\s/g, '');
+};
+
+function definecubecolors(text)
+{
+
+  text =text.killWhiteSpace();
+  var backside = text.substr(0,9); //only affects backside color of -1 cubes starting with [-1,6]
+  var leftside = "";
+  var topside ="";
+  var rightside="";
+  for (var i =0; i< 19; i+=9)
+  {
+    leftside+=text.substr(9+i,3);
+    topside+=text.substr(12+i,3);
+    rightside+=text.substr(15+i,3);
+
+  }
+  var frontside= text.substr(36,9);
+  var bottomside = text.substr(45, 9);
+  drawables = [];
+  makecube(drawables, initShaders( gl, "vertex-shader", "fragment-shader" ), backside, leftside, topside, rightside,frontside,bottomside);
+
+}
+
+
 function readCubeFile(evt) {
     //Retrieve the first (and only!) File from the FileList object
     var f = evt.target.files[0]; 
@@ -9,7 +36,8 @@ function readCubeFile(evt) {
       var r = new FileReader();
       r.onload = function(e) { 
         var contents = e.target.result;
-        cubetext = contents;     
+        cubetext = contents;
+        definecubecolors(cubetext);
       }
       r.readAsText(f);
     } else { 
@@ -40,3 +68,4 @@ function addfile(){
   var sol = document.getElementById('solinput');
   sol.addEventListener('change', readSolFile, false);
 }
+

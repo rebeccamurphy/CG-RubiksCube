@@ -25,6 +25,7 @@ Notes on functions taken in class.
 // gl_Position = projection * modelview *vposition; 
  
  */
+
 var Cube = function (program, facecolors, pos) { this.init(program, facecolors, pos); }
 
 /* Initialize properties of this color cube object. */
@@ -192,6 +193,6 @@ window.onload = function() {
 	//for facecolors [forward side, right side, bottom side, top side, back side, left side]  
 	//for facecolors [orange, blue, white, yellow, red,green]  
 		// for colors 0 = black, 1 = red, 2 = yellow, 3 = green, 4 = blue, 5 = magenta, 6 = white, 7 = cyan
-	drawables = makesolved(drawables, shaders);
+	//drawables = makesolved(drawables, shaders);
     renderScene(); // begin render loop
 }

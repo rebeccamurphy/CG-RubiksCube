@@ -250,7 +250,7 @@ var renderScene = function(){
 			if (angle>=90 * numcubes)
 			
 					{
-					
+			
 					for (i in drawables)
 					 {
 					 	changepos(drawables[i], turncolor);

@@ -71,8 +71,7 @@ function makeposindex()
 var posindex = makeposindex();
 
 
-function getposition(posit, posindex)
-{
+function getposition(posit, posindex){
 	
 	for (var i =0; i< posindex.length; i++)
 	{
@@ -82,8 +81,8 @@ function getposition(posit, posindex)
 	}
 
 }
-function makesolved(drawables, shaders)
-{
+
+function makesolved(drawables, shaders){
 	var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
     var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
     var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
@@ -576,10 +575,8 @@ switch(cube.pos.coord[0]) // how far away
 }
 }
 
-function changepos(cube, turn) 
-{
+function changepos(cube, turn) {
 switch(turn)
-
 { 
 case 'Y':
 	innerchangeposY(cube);
@@ -605,3 +602,171 @@ case 'O':
 break;
 }
 }
+
+function chartocolor(C){
+	var colorsvalues =[];
+	var colors = [];
+	var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
+    var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
+    var yellow =[ 1.0, 1.0, 0.0, 1.0 ]; // yellow
+    var green =[ 0.0, 1.0, 0.0, 1.0 ]; // green
+    var blue =[ 0.0, 0.0, 1.0, 1.0 ]; // blue
+    var white =[ 1.0, 1.0, 1.0, 1.0 ]; // white
+
+    colorsvalues.push(red, orange,yellow,green,blue,white);
+   	colors.push("R", "O", "Y", "G","B","W");
+
+   	return colorsvalues[colors.indexOf(C)];
+}
+
+function makecube(drawable, shaders,backside, leftside, topside, rightside,frontside,bottomside){
+	
+	
+	var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
+	var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
+    var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
+    var yellow =[ 1.0, 1.0, 0.0, 1.0 ]; // yellow
+    var green =[ 0.0, 1.0, 0.0, 1.0 ]; // green
+    var blue =[ 0.0, 0.0, 1.0, 1.0 ]; // blue
+    var white =[ 1.0, 1.0, 1.0, 1.0 ]; // white
+	//mid
+	var space = .1;
+	var pos =-9;
+	
+	//var ls = 1;
+	for (var ls =-1; ls <2; ls++)
+	{
+	pos+=9
+	{
+	switch(ls)
+	{
+	case -1:
+	//[forward side, right side, bottom side, top side, back side, left side]  
+
+	var clsidetop = new Cube(shaders, [black, black, black, chartocolor(topside.charAt(0)), chartocolor(backside.charAt(6)), chartocolor(leftside.charAt(2))] , posindex [pos] );
+	var ctop = new Cube(shaders, [black, black, black, chartocolor(topside.charAt(1)), chartocolor(backside.charAt(7)),black] , posindex [pos+1] );
+	var crsidetop = new Cube(shaders, [black, chartocolor(rightside.charAt(0)), black, chartocolor(topside.charAt(2)), chartocolor(backside.charAt(8)),black] , posindex [pos+2]);
+	
+	
+	var clsidemid = new Cube(shaders, [black, black, black, black,chartocolor(backside.charAt(3)),chartocolor(leftside.charAt(1))] ,posindex [pos+3]);
+	var cmid = new Cube(shaders, [black, black, , black, chartocolor(backside.charAt(4)), black]  , posindex [pos+4]);
+	var crsidemid = new Cube(shaders, [black, chartocolor(rightside.charAt(1)), black, black, chartocolor(backside.charAt(5)),black], posindex[pos+5] );
+	
+	
+	var clsidebot = new Cube(shaders,  [black, black,chartocolor(bottomside.charAt(6)), black, chartocolor(backside.charAt(0)),chartocolor(leftside.charAt(0))], posindex[ pos+6]);
+	var cbot = new Cube(shaders, [black, black, chartocolor(bottomside.charAt(7)), black, chartocolor(backside.charAt(1)),black] , posindex [pos+7]);
+	var crsidebot = new Cube(shaders, [black, chartocolor(rightside.charAt(2)), chartocolor(bottomside.charAt(8)), black, chartocolor(backside.charAt(2)),black] , posindex [pos+8]);
+	
+	break;
+	
+	case 0:
+	
+	var clsidetop = new Cube(shaders, [black, black, black, chartocolor(topside.charAt(3)), black,chartocolor(leftside.charAt(5))], posindex [pos] );
+	var ctop = new Cube(shaders, [black, black, black,chartocolor(topside.charAt(4)), black,black], posindex[ pos+1] );
+	var crsidetop = new Cube(shaders, [black, chartocolor(rightside.charAt(3)), black, chartocolor(topside.charAt(5)), black,black], posindex[pos+2]);
+	
+	var clsidemid = new Cube(shaders, [black, black, black, black, black,chartocolor(leftside.charAt(4))], posindex[pos+3] );
+	var cmid = new Cube(shaders, [black, black, , black, black, black],posindex [pos+4] );	
+	var crsidemid = new Cube(shaders, [black, chartocolor(rightside.charAt(4)), black, black, black,black], posindex[ pos+5] );
+	
+	var clsidebot = new Cube(shaders,  [black, black, chartocolor(bottomside.charAt(3)), black, black,chartocolor(leftside.charAt(3))], posindex[pos+6]);
+	var cbot = new Cube(shaders, [black, black, chartocolor(bottomside.charAt(4)), black, black,black], posindex[pos+7]  );
+	var crsidebot = new Cube(shaders, [black, chartocolor(rightside.charAt(5)), chartocolor(bottomside.charAt(5)), black, black,black], posindex [ pos+8] );
+	
+	break;
+	
+	case 1:
+	var clsidetop = new Cube(shaders, [chartocolor(frontside.charAt(0)), black, black, chartocolor(topside.charAt(6)), black,chartocolor(leftside.charAt(8))] , posindex[ pos]);
+	var ctop = new Cube(shaders, [chartocolor(frontside.charAt(1)), black, black, chartocolor(topside.charAt(7)), black,black], posindex[pos+1]);
+	var crsidetop = new Cube(shaders, [chartocolor(frontside.charAt(2)), chartocolor(rightside.charAt(6)), black, chartocolor(topside.charAt(8)), black,black],posindex[pos+2]);
+	
+	var clsidemid = new Cube(shaders, [chartocolor(frontside.charAt(3)), black, black, black, black,chartocolor(leftside.charAt(7))] ,posindex[pos+3]);
+	var cmid = new Cube(shaders, [chartocolor(frontside.charAt(4)), black, black, black, black, black] , posindex[pos+4] );
+	var crsidemid = new Cube(shaders, [chartocolor(frontside.charAt(5)), chartocolor(rightside.charAt(7)), black, black, black,black] ,posindex[pos+5]);
+	
+	var clsidebot = new Cube(shaders,  [chartocolor(frontside.charAt(6)), black, chartocolor(bottomside.charAt(0)), black, black,chartocolor(leftside.charAt(6))], posindex[pos+6]);
+	var cbot = new Cube(shaders, [chartocolor(frontside.charAt(7)), black, chartocolor(bottomside.charAt(1)), black, black,black] ,posindex[pos+7] );
+	var crsidebot = new Cube(shaders, [chartocolor(frontside.charAt(8)), chartocolor(rightside.charAt(8)), chartocolor(bottomside.charAt(6)), black, black,black] , posindex[pos+8]);
+	
+	break;
+	}
+	
+    ctop.move(1.0, Y_AXIS);
+	ctop.move(ls, Z_AXIS);
+	ctop.move(space, Y_AXIS);
+	ctop.move(space*ls, Z_AXIS);
+	
+	
+	cmid.move(ls, Z_AXIS);
+	cmid.move(space*ls, Z_AXIS);
+	
+	
+	//center bottom
+	cbot.move(-1.0,Y_AXIS);
+	cbot.move(ls, Z_AXIS);
+	cbot.move(-space, Y_AXIS);
+	cbot.move(space*ls, Z_AXIS);
+	
+	}
+	
+	crsidetop.move(1.0, X_AXIS);
+  	crsidetop.move(1.0,Y_AXIS);
+	crsidetop.move(ls, Z_AXIS);
+	crsidetop.move(space, Y_AXIS);
+	crsidetop.move(space, X_AXIS);
+	crsidetop.move(space*ls, Z_AXIS);
+	
+	crsidemid.move(1.0, X_AXIS);
+	crsidemid.move(ls, Z_AXIS);
+	crsidemid.move(space, X_AXIS);
+	crsidemid.move(space*ls, Z_AXIS);
+	
+	
+	
+	crsidebot.move(1.0, X_AXIS);
+  	crsidebot.move(-1.0,Y_AXIS);
+	crsidebot.move(ls, Z_AXIS);
+	crsidebot.move(-space, Y_AXIS);
+	crsidebot.move(space, X_AXIS);
+	crsidebot.move(space*ls, Z_AXIS);
+	
+	
+	//left
+	
+	clsidetop.move(-1.0, X_AXIS);
+  	clsidetop.move(1.0,Y_AXIS);
+	clsidetop.move(ls,Z_AXIS);
+	clsidetop.move(space, Y_AXIS);
+	clsidetop.move(-space, X_AXIS);
+	clsidetop.move(space*ls, Z_AXIS);
+	
+
+	clsidemid.move(-1.0, X_AXIS);
+	clsidemid.move(ls, Z_AXIS);
+	clsidemid.move(-space, X_AXIS);
+	clsidemid.move(space*ls, Z_AXIS);
+	
+	
+	clsidebot.move(-1.0, X_AXIS);
+  	clsidebot.move(-1.0,Y_AXIS);
+	clsidebot.move(ls, Z_AXIS);
+	clsidebot.move(-space, Y_AXIS);
+	clsidebot.move(-space, X_AXIS);
+	clsidebot.move(space*ls, Z_AXIS);
+	
+	drawable.push( clsidetop);  
+	drawable.push( ctop);
+	drawable.push( crsidetop );
+	
+	drawable.push( clsidemid);
+	drawable.push( cmid  );
+	drawable.push( crsidemid );
+	
+	drawable.push( clsidebot );
+	drawable.push( cbot  );
+	drawable.push( crsidebot);
+	
+	}
+	drawables = drawable;
+}
+
