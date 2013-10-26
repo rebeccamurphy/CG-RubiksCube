@@ -113,6 +113,7 @@ var renderScene = function(){
 	var numcubes =27;
     for (i in drawables) {
 
+    	//MAKE THIS INTO FUNCTION AND DO A TIMEOUT ON THAT FUNCTION.
 		//if (turn == true&& angle !=90.0*numcubes  ) 
 		if (animate == true&& angle !=90.0*numcubes  ) 
 
