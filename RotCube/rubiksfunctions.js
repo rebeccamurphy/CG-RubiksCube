@@ -623,12 +623,7 @@ function makecube(drawable, shaders,backside, leftside, topside, rightside,front
 	
 	
 	var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
-	var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
-    var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
-    var yellow =[ 1.0, 1.0, 0.0, 1.0 ]; // yellow
-    var green =[ 0.0, 1.0, 0.0, 1.0 ]; // green
-    var blue =[ 0.0, 0.0, 1.0, 1.0 ]; // blue
-    var white =[ 1.0, 1.0, 1.0, 1.0 ]; // white
+	
 	//mid
 	var space = .1;
 	var pos =-9;
@@ -686,7 +681,7 @@ function makecube(drawable, shaders,backside, leftside, topside, rightside,front
 	
 	var clsidebot = new Cube(shaders,  [chartocolor(frontside.charAt(6)), black, chartocolor(bottomside.charAt(0)), black, black,chartocolor(leftside.charAt(6))], posindex[pos+6]);
 	var cbot = new Cube(shaders, [chartocolor(frontside.charAt(7)), black, chartocolor(bottomside.charAt(1)), black, black,black] ,posindex[pos+7] );
-	var crsidebot = new Cube(shaders, [chartocolor(frontside.charAt(8)), chartocolor(rightside.charAt(8)), chartocolor(bottomside.charAt(6)), black, black,black] , posindex[pos+8]);
+	var crsidebot = new Cube(shaders, [chartocolor(frontside.charAt(8)), chartocolor(rightside.charAt(8)), chartocolor(bottomside.charAt(2)), black, black,black] , posindex[pos+8]);
 	
 	break;
 	}

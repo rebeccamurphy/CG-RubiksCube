@@ -212,7 +212,7 @@ var renderScene = function(){
 					{
 					for (i in drawables)
 					 {
-					 	changepos(drawables[i], turncolor);
+					 	changepos(drawables[i], solution[step].charAt(0));
 					 	
 					 }
 					//HEY add something for animate here.
