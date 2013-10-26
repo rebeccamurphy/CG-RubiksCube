@@ -18,14 +18,10 @@ var turnl = false;
 var turncolor="";
 var turn = false;
 var drawables = [];
-var toprow =[];
-var topindexes = [0,3,6, 9,12,15,18,21,24];
-var botindexes = [2,5,8,11,14,17,20,23,26];
-var rightindexes = [3,4,5,12,13,14,21,22,23];
-var leftindexes = [];
+
 
  // used to store any objects that need to be drawn
-var animate=[];
+var animate= false;
 /* Initialize global WebGL stuff - not object specific */
 function initGL()
 {
@@ -179,7 +175,18 @@ function initGL()
         false
     );
 }
-
+/*
+	var ani = document.getElementById("Btn_Ani");
+    ani.addEventListener("click",
+        function(){
+            This button starts 90deg
+                rotation (to the right) of the top cube. 
+				
+				animate =true;
+        },
+        false
+    );
+*/
 /* Global render callback - would draw multiple objects if there were more than one */
 var renderScene = function(){
     // start from a clean frame buffer for this frame
@@ -187,79 +194,31 @@ var renderScene = function(){
 
     // loop over all objects and draw each
     //HEY change numcubes
-    var i, frame;
+    var i, step=0;
 	var numcubes =27;
     for (i in drawables) {
 
-		if (turn == true&& angle !=90.0*numcubes ) 
+		//if (turn == true&& angle !=90.0*numcubes  ) 
+		if (turn == true&& angle !=90.0*numcubes  ) 
 
 
-		{	//alert(drawables[i].pos.turns);
-			//console.log(drawables[0].pos.turns[0]);
-			//alert( i + " " +rightindexes.indexOf(parseInt(i)))
-			//alert( i +" "+ i.valueOf());
-			switch(turncolor)
-			{
-				case 'Y':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-					{	//console.log(drawables[i].pos.coord);
-						drawables[i].orbit(-2.0, Y_AXIS);
-							
-							//console.log(i);
-							//console.log(drawables[i].pos);
-							/*console.log(drawables[i].pos.turns.indexOf(turncolor) !=-1);*/
-					}	
-				break;
-				case 'W':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(2.0, Y_AXIS);
-
-				break;
-				case 'R':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(2.0, Z_AXIS);
-				break;
-				case 'O':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(-2.0, Z_AXIS);
-				break;
-				case 'B':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-					{	drawables[i].orbit(-2.0, X_AXIS);
-						//console.log(drawables[i].pos.coord);
-					}
-				break;
-				case 'G':
-					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
-						drawables[i].orbit(2.0, X_AXIS);
-				break;
-			}
-
-			//if (turnr==true)
-
-			 // drawables[i].orbit(2.0, X_AXIS);
-			
-			//else 
-			//	drawables[i].orbit(-2.0, X_AXIS);
-			
-			
-			
+		{	
+			animation(turncolor, i);
 
 			drawables[i].draw();
 			angle+=2.0;
 			if (angle>=90 * numcubes)
 			
 					{
-			
 					for (i in drawables)
 					 {
 					 	changepos(drawables[i], turncolor);
-					 	console.log(i);
-						console.log(drawables[i].pos);
+					 	
 					 }
-					//console.log(drawables[0].pos);
+					//HEY add something for animate here.
+					angle =0;
 					turn = false;
-					turncolor = '';
+					turncolor ='';
 
 				}
 		}

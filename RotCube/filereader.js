@@ -1,5 +1,6 @@
 var cubetext ="";
 var solutiontext="";
+var solution =[];
 
 String.prototype.killWhiteSpace = function() {
     return this.replace(/\s/g, '');
@@ -28,6 +29,7 @@ function definecubecolors(text)
 }
 
 
+
 function readCubeFile(evt) {
     //Retrieve the first (and only!) File from the FileList object
     var f = evt.target.files[0]; 
@@ -44,7 +46,15 @@ function readCubeFile(evt) {
       alert("Failed to load file");
     }
   }
-
+function definesolution(sol)
+{
+  var slt=[]
+  for(var i =0; i<sol.length; i+=2 )
+  {
+    slt.push(sol.substr(i, 2));
+  }
+  solution = slt;
+}
 function readSolFile(evt) {
     //Retrieve the first (and only!) File from the FileList object
     var f = evt.target.files[0]; 
@@ -53,7 +63,8 @@ function readSolFile(evt) {
       var r = new FileReader();
       r.onload = function(e) { 
         var contents = e.target.result;
-        sol = contents;
+        solutiontext = contents;
+        definesolution(solutiontext);
       }
       r.readAsText(f);
     } else { 

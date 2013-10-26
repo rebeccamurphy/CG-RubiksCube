@@ -190,9 +190,6 @@ window.onload = function() {
     addfile();
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
-	//for facecolors [forward side, right side, bottom side, top side, back side, left side]  
-	//for facecolors [orange, blue, white, yellow, red,green]  
-		// for colors 0 = black, 1 = red, 2 = yellow, 3 = green, 4 = blue, 5 = magenta, 6 = white, 7 = cyan
-	//drawables = makesolved(drawables, shaders);
+    drawables = makesolved(drawables, shaders);
     renderScene(); // begin render loop
 }
