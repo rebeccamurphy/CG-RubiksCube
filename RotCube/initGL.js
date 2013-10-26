@@ -12,7 +12,7 @@ const Z_AXIS = 2;
 
 var camera;
 
-var angle;
+var angle=0;
 var turnr = false;
 var turnl = false;
 var turncolor="";
@@ -174,41 +174,41 @@ function initGL()
         },
         false
     );
-}
-/*
+
+
 	var ani = document.getElementById("Btn_Ani");
     ani.addEventListener("click",
         function(){
-            This button starts 90deg
-                rotation (to the right) of the top cube. 
+           
 				
 				animate =true;
         },
         false
     );
-*/
+}
 /* Global render callback - would draw multiple objects if there were more than one */
+step=0, turncount =0;
 var renderScene = function(){
     // start from a clean frame buffer for this frame
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // loop over all objects and draw each
     //HEY change numcubes
-    var i, step=0;
+    var i;
 	var numcubes =27;
     for (i in drawables) {
 
 		//if (turn == true&& angle !=90.0*numcubes  ) 
-		if (turn == true&& angle !=90.0*numcubes  ) 
+		if (animate == true&& angle !=90.0*numcubes  ) 
 
 
 		{	
-			animation(turncolor, i);
+			animation(solution[step].charAt(0), i);
 
 			drawables[i].draw();
 			angle+=2.0;
 			if (angle>=90 * numcubes)
-			
+					
 					{
 					for (i in drawables)
 					 {
@@ -219,6 +219,14 @@ var renderScene = function(){
 					angle =0;
 					turn = false;
 					turncolor ='';
+					turncount+=1;
+					if (turncount == parseInt(solution[step].charAt(1)))
+					{	console.log('gothere');
+						step+=1;
+						turncount=0;
+						if (step== solution.length)
+							animate = false;
+					}
 
 				}
 		}

@@ -190,6 +190,6 @@ window.onload = function() {
     addfile();
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
-    drawables = makesolved(drawables, shaders);
+    //drawables = makesolved(drawables, shaders);
     renderScene(); // begin render loop
 }
