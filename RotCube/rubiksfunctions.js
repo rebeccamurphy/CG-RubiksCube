@@ -54,11 +54,11 @@ function makeposindex()
 	posindex.push(new position([ls,pos+2],['O','Y', 'B'] ));
 	
 	posindex.push(new position([ls, pos+3],['O', 'G'] ));
-	posindex.push(new position([ls, pos+4],[] ));
+	posindex.push(new position([ls, pos+4],['O'] ));
 	posindex.push(new position([ls, pos+5],['O', 'B']));
 	
 	posindex.push(new position([ls, pos+6],['O','W', 'G'] ));
-	posindex.push(new position([ls, pos+7],['O','W', 'G']));
+	posindex.push(new position([ls, pos+7],['O','W']));
 	posindex.push(new position([ls, pos+8],['O','W', 'B']) );
 	
 	break;
@@ -96,60 +96,61 @@ function makesolved(drawables, shaders)
 	
 	//mid
 	var space = .1;
-	var pos =0;
+	var pos =-9;
+	
 	//var ls = 1;
 	for (var ls =-1; ls <2; ls++)
 	{
-	pos =0;
+	pos+=9
 	{
 	switch(ls)
 	{
 	case -1:
 	
-	var clsidetop = new Cube(shaders, [black, black, black, yellow, red,green] , new position( [ls, pos],['Y', 'G','R'] ));
-	var ctop = new Cube(shaders, [black, black, black, yellow, red,black] , new position([ls,pos+1],[ 'Y', 'R']) );
-	var crsidetop = new Cube(shaders, [black, blue, black, yellow, red,black] , new position([ls,pos+2],['Y', 'R','B' ] ));
+	var clsidetop = new Cube(shaders, [black, black, black, yellow, red,green] , posindex [pos] );
+	var ctop = new Cube(shaders, [black, black, black, yellow, red,black] , posindex [pos+1] );
+	var crsidetop = new Cube(shaders, [black, blue, black, yellow, red,black] , posindex [pos+2]);
 	
 	
-	var clsidemid = new Cube(shaders, [black, black, black, black, red,green] ,new position ([ls, pos+3],['G', 'R']) );
-	var cmid = new Cube(shaders, [black, black, , black, red, black]  , new position ([ls, pos+4],['R']));
-	var crsidemid = new Cube(shaders, [black, blue, black, black, red,black], new position([ls,pos+5],['R', 'B'])  );
+	var clsidemid = new Cube(shaders, [black, black, black, black, red,green] ,posindex [pos+3]);
+	var cmid = new Cube(shaders, [black, black, , black, red, black]  , posindex [pos+4]);
+	var crsidemid = new Cube(shaders, [black, blue, black, black, red,black], posindex[pos+5] );
 	
 	
-	var clsidebot = new Cube(shaders,  [black, black, white, black, red,green], new position( [ls, pos+6],['W', 'G', 'R']));
-	var cbot = new Cube(shaders, [black, black, white, black, red,black] , new position ([ls, pos+7],['W', 'R'] ));
-	var crsidebot = new Cube(shaders, [black, blue, white, black, red,black] , new position( [ls,pos+8],['W', 'R', 'B']));
+	var clsidebot = new Cube(shaders,  [black, black, white, black, red,green], posindex[ pos+6]);
+	var cbot = new Cube(shaders, [black, black, white, black, red,black] , posindex [pos+7]);
+	var crsidebot = new Cube(shaders, [black, blue, white, black, red,black] , posindex [pos+8]);
 	
 	break;
 	
 	case 0:
 	
-	var clsidetop = new Cube(shaders, [black, black, black, yellow, black,green], new position([ls, pos],['Y', 'G'] ) );
-	var ctop = new Cube(shaders, [black, black, black, yellow, black,black], new position( [ls, pos+1],['Y']) );
-	var crsidetop = new Cube(shaders, [black, blue, black, yellow, black,black], new position([ls, pos+2], ['Y','B'] ));
+	var clsidetop = new Cube(shaders, [black, black, black, yellow, black,green], posindex [pos] );
+	var ctop = new Cube(shaders, [black, black, black, yellow, black,black], posindex[ pos+1] );
+	var crsidetop = new Cube(shaders, [black, blue, black, yellow, black,black], posindex[pos+2]);
 	
-	var clsidemid = new Cube(shaders, [black, black, black, black, black,green], new position([ls, pos+3],['G']) );
-	var cmid = new Cube(shaders, [black, black, , black, black, black],new position ([ls, pos+4], [])  );	
-	var crsidemid = new Cube(shaders, [black, blue, black, black, black,black], new position([ls, pos+5], ['B']) );
+	var clsidemid = new Cube(shaders, [black, black, black, black, black,green], posindex[pos+3] );
+	var cmid = new Cube(shaders, [black, black, , black, black, black],posindex [pos+4] );	
+	var crsidemid = new Cube(shaders, [black, blue, black, black, black,black], posindex[ pos+5] );
 	
-	var clsidebot = new Cube(shaders,  [black, black, white, black, black,green], new position([ls, pos+6],['W', 'G'] ));
-	var cbot = new Cube(shaders, [black, black, white, black, black,black], new position([ls, pos+7] ,['W']) );
-	var crsidebot = new Cube(shaders, [black, blue, white, black, black,black], new position( [ls, pos+8],['W', 'B']) );
+	var clsidebot = new Cube(shaders,  [black, black, white, black, black,green], posindex[pos+6]);
+	var cbot = new Cube(shaders, [black, black, white, black, black,black], posindex[pos+7]  );
+	var crsidebot = new Cube(shaders, [black, blue, white, black, black,black], posindex [ pos+8] );
 	
 	break;
 	
 	case 1:
-	var clsidetop = new Cube(shaders, [orange, black, black, yellow, black,green] , new position([ls, pos], ['O','Y', 'G']));
-	var ctop = new Cube(shaders, [orange, black, black, yellow, black,black], new position([ls, pos+1],[ 'O','Y']) );
-	var crsidetop = new Cube(shaders, [orange, blue, black, yellow, black,black],new position([ls, pos+2],['O','Y', 'B']) );
+	var clsidetop = new Cube(shaders, [orange, black, black, yellow, black,green] , posindex[ pos]);
+	var ctop = new Cube(shaders, [orange, black, black, yellow, black,black], posindex[pos+1]);
+	var crsidetop = new Cube(shaders, [orange, blue, black, yellow, black,black],posindex[pos+2]);
 	
-	var clsidemid = new Cube(shaders, [orange, black, black, black, black,green] ,new position([ls, pos+3], ['O', 'G']));
-	var cmid = new Cube(shaders, [orange, black, black, black, black, black] , new position([ls, pos+4],['O']) );
-	var crsidemid = new Cube(shaders, [orange, blue, black, black, black,black] ,new position([ls, pos+5], ['O', 'B']));
+	var clsidemid = new Cube(shaders, [orange, black, black, black, black,green] ,posindex[pos+3]);
+	var cmid = new Cube(shaders, [orange, black, black, black, black, black] , posindex[pos+4] );
+	var crsidemid = new Cube(shaders, [orange, blue, black, black, black,black] ,posindex[pos+5]);
 	
-	var clsidebot = new Cube(shaders,  [orange, black, white, black, black,green], new position([ls, pos+6],['O','W', 'G']) );
-	var cbot = new Cube(shaders, [orange, black, white, black, black,black] ,new position([ls, pos+7],['O','W']) );
-	var crsidebot = new Cube(shaders, [orange, blue, white, black, black,black] ,new position([ls, pos+8],['O','W', 'B']));
+	var clsidebot = new Cube(shaders,  [orange, black, white, black, black,green], posindex[pos+6]);
+	var cbot = new Cube(shaders, [orange, black, white, black, black,black] ,posindex[pos+7] );
+	var crsidebot = new Cube(shaders, [orange, blue, white, black, black,black] , posindex[pos+8]);
 	
 	break;
 	}
@@ -290,11 +291,73 @@ function innerchangeposY(cube)
 		break;	
 }
 }
+
+function innerchangeposW(cube)
+
+{
+
+switch(cube.pos.coord[0]) // how far away
+		{
+			
+		case -1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 6:
+				cube.pos = getposition([1,6], posindex);
+			break;
+
+			case 7:
+				
+				cube.pos = getposition([0,7], posindex);
+				
+			break;
+
+			case 8:
+				cube.pos = getposition([-1,6], posindex);
+			break;
+			}
+		break;
+		case 0:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 6:
+				cube.pos = getposition([1,7], posindex);
+			break;
+
+			case 8:
+				cube.pos = getposition([-1,7], posindex);
+			break;
+			}
+		break;
+		case 1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 6:
+				
+				cube.pos = getposition([1,8], posindex);
+
+			break;
+
+			case 7:
+				cube.pos = getposition([0,8], posindex);
+			break;
+
+			case 8:
+				cube.pos = getposition([-1,8], posindex);
+			break;
+			}
+		break;
+}
+}
+
+
 function innerchangeposB(cube)
 
 {
-	console.log('this is the cubes how far away coord: ' + cube.pos.coord[0])
-	console.log('this is the what cube coord: ' + cube.pos.coord[1])
+
 switch(cube.pos.coord[0]) // how far away
 		{
 			
@@ -355,36 +418,190 @@ switch(cube.pos.coord[0]) // how far away
 }
 }
 
-function changepos(cube, turn) 
+function innerchangeposG(cube)
+
 {
 
+switch(cube.pos.coord[0]) // how far away
+		{
+			
+		case -1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 0:
+				cube.pos = getposition([1,0], posindex);
+			break;
+
+			case 3:
+				
+				cube.pos = getposition([0,0], posindex);
+				
+			break;
+
+			case 6:
+				cube.pos = getposition([-1,0], posindex);
+			break;
+			}
+		break;
+		case 0:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 0:
+				cube.pos = getposition([1,3], posindex);
+				
+			break;
+
+			case 6:
+				cube.pos = getposition([-1,3], posindex);
+			break;
+			}
+		break;
+		case 1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 0:
+				
+				cube.pos = getposition([1,6], posindex);
+
+			break;
+
+			case 3:
+				cube.pos = getposition([0,6], posindex);
+			break;
+
+			case 6:
+				cube.pos = getposition([-1,6], posindex);
+			break;
+			}
+		break;
+}
+}
+
+function innerchangeposR(cube)
+
+{
+
+switch(cube.pos.coord[0]) // how far away
+		{
+			
+		case -1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 0:
+				cube.pos = getposition([-1,6], posindex);
+			break;
+
+			case 1:
+				cube.pos = getposition([-1,3], posindex);
+			break;
+
+			case 2:
+				cube.pos = getposition([-1,0], posindex);
+			break;
+
+			case 3:
+				cube.pos = getposition([-1,7], posindex);
+			break;
+
+			case 5:
+				cube.pos = getposition([-1,1], posindex);
+			break;
+
+			case 6:
+				cube.pos = getposition([-1,8], posindex);
+			break;
+
+			case 7:
+				cube.pos = getposition([-1,5], posindex);
+			break;
+			
+			case 8:
+				cube.pos = getposition([-1,2], posindex);
+			break;
+			}
+		break;
+		
+}
+}
+
+function innerchangeposO(cube)
+
+{
+
+switch(cube.pos.coord[0]) // how far away
+		{
+			
+		case 1:
+			switch(cube.pos.coord[1]) // what cube
+			{
+
+			case 0:
+				cube.pos = getposition([1,6], posindex);
+			break;
+
+			case 1:
+				cube.pos = getposition([1,3], posindex);
+			break;
+
+			case 2:
+				cube.pos = getposition([1,0], posindex);
+			break;
+
+			case 3:
+				cube.pos = getposition([1,7], posindex);
+			break;
+
+			case 5:
+				cube.pos = getposition([1,1], posindex);
+			break;
+
+			case 6:
+				cube.pos = getposition([1,8], posindex);
+			break;
+
+			case 7:
+				cube.pos = getposition([1,5], posindex);
+			break;
+			
+			case 8:
+				cube.pos = getposition([1,2], posindex);
+			break;
+			}
+		break;
+		
+}
+}
+
+function changepos(cube, turn) 
+{
 switch(turn)
+
 { 
 case 'Y':
 	innerchangeposY(cube);
-
-	break;
-
+break;
 case 'W':
-
+	innerchangeposW(cube);
 break;
 
 case 'B':
-	console.log("cube position before turn:" + cube.pos.coord);
 	innerchangeposB(cube);
-	
-	break;
+break;
 	
 case 'G':
-
+	innerchangeposG(cube);
 break;
 
 case 'R':
-
+	innerchangeposR(cube);
 break;
 
 case 'O':
-
+	innerchangeposO(cube)
 break;
 }
 }
