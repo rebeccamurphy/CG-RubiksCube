@@ -64,15 +64,15 @@ function initGL()
     c.addEventListener("click",
         function(){
 			//This button makes projection perspective 
-			projection = perspective(30.0, 2.0, 1, 100);
+			//projection = perspective(30.0, 2.0, 1, 100);
 			//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
 			 camera = lookAt([-6,-3,-10], [-1,0,0], [0,1,0]);	
         },
         false
     );
-	
-	 var d = document.getElementById("Btn_OV");
-    d.addEventListener("click",
+
+    var e = document.getElementById("Btn_OV");
+    e.addEventListener("click",
         function(){
 				//This button makes the projection ortho
 				//projection = ortho(-2, 2, -1.5, 1, -1, 100);
