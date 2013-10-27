@@ -41,7 +41,7 @@ function initGL()
 	// set the projection matrix
 	projection = perspective(30.0, 2.0, 1, 100);
 	//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
-	 camera = lookAt([7,10,10], [0,0,0], [0,1,0]);
+	 camera = lookAt([7,10,13], [0,0,0], [0,1,0]);
 
 	/*
 		
@@ -91,8 +91,9 @@ function initGL()
            		if (animate==false && solution!=[])
            		{
            		
-           		if (cubenum >1||reani>0)
-           		{	definecubecolors(cubetext);
+           		if ( cubenum >1||reani>0 )
+           		{	
+                    definecubecolors(cubetext);
 				}
 				animate =true;
 				anistart =true;
@@ -100,8 +101,7 @@ function initGL()
 				step=0;
 				turncount=0;
 				}
-				else
-					alert ('Please upload new solution text.');
+				
         },
         false
     );
@@ -116,9 +116,8 @@ var renderScene = function(){
     // loop over all objects and draw each
     //HEY change numcubes
     if (anistart == true)
-    {  
-    	animatecubes()
-		//setTimeout(animatecubes(), 5000);
+    {   //try to do something with time
+        animatecubes();
 		anistart =false; 
 	}
 	else

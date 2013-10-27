@@ -2,7 +2,7 @@ var cubetext ="";
 var cubenum = 0;
 var solutiontext="";
 var solution =[];
-
+var rubix =[];
 /* Set up event callback to start the application */
 window.onload = function() {
     initGL(); // basic WebGL setup for the scene 
@@ -51,8 +51,9 @@ function readCubeFile(evt) {
       r.onload = function(e) { 
         var contents = e.target.result;
         cubetext = contents;
+        
         definecubecolors(cubetext);
-
+        rubix.push(cubetext.killWhiteSpace());
         cubenum+=1;
 
       }
