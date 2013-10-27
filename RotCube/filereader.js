@@ -3,6 +3,16 @@ var cubenum = 0;
 var solutiontext="";
 var solution =[];
 
+/* Set up event callback to start the application */
+window.onload = function() {
+    initGL(); // basic WebGL setup for the scene 
+    var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
+    addfile();
+    // load and compile our shaders into a program object
+    //drawables = makesolved(drawables, shaders);
+    renderScene(); // begin render loop
+}
+
 String.prototype.killWhiteSpace = function() {
     return this.replace(/\s/g, '');
 };
@@ -25,7 +35,8 @@ function definecubecolors(text)
   var frontside= text.substr(36,9);
   var bottomside = text.substr(45, 9);
   drawables = [];
-  makecube(drawables, initShaders( gl, "vertex-shader", "fragment-shader" ), backside, leftside, topside, rightside,frontside,bottomside);
+  var shaders = initShaders( gl, "vertex-shader", "fragment-shader" )
+  makecube(drawables,shaders , backside, leftside, topside, rightside,frontside,bottomside);
 
 }
 

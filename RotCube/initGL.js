@@ -118,7 +118,7 @@ var renderScene = function(){
     if (anistart == true)
     {  
     	animatecubes()
-		//window.setTimeout(function(){animatecubes()}, 10000);
+		//setTimeout(animatecubes(), 5000);
 		anistart =false; 
 	}
 	else

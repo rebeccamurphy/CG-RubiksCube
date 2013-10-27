@@ -77,7 +77,7 @@ Cube.prototype.draw = function(){
     
     //var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
     var lightPosition = vec4(0, 0, -7, 0); // x, y, z, ? 
-    var lightPosition2 = vec4(0, 3, -7, 0);
+    var lightPosition2 = vec4(0, -3, -7, 0);
     //r 
     var lightAmbient = vec4(0, 0, 0, 10 );
     var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
@@ -86,7 +86,7 @@ Cube.prototype.draw = function(){
         // this is red, green, blue ASK MJ what is the last coord for? 
     var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
     
-    var materialDiffuse = vec4( 10, 9, 5, 1 );
+    var materialDiffuse = vec4( 9, 10, 7, 6 );
     var materialSpecular = vec4( 0, 0, 0, 1 );
     var materialShininess = 100.0;
     
@@ -228,12 +228,3 @@ Cube.prototype.orbit = function(angle, axis){
 }
 
 
-/* Set up event callback to start the application */
-window.onload = function() {
-    initGL(); // basic WebGL setup for the scene 
-    addfile();
-    // load and compile our shaders into a program object
-    var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
-    drawables = makesolved(drawables, shaders);
-    renderScene(); // begin render loop
-}
