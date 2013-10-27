@@ -15,7 +15,7 @@
   <script id="vertex-shader" type="x-shader/x-vertex">
 attribute vec4 vPosition; // vert attribs bound to array buffer data 
 attribute vec4 vColor; // vert attribs bound to array buffer data
-
+attribute vec4 vNormal; // vert normal attribs 
 
 varying vec4 color; // sent down to later stages of the pipeline
 
@@ -28,7 +28,7 @@ uniform vec4 ambientProduct, diffuseProduct, specularProduct;
 uniform vec4 lightPosition;
 uniform vec4 lightPosition2;
 uniform float shininess;
-attribute vec4 vNormal;
+
 
 varying highp vec3 vLighting;
     
@@ -80,8 +80,8 @@ void main()
   //color = vColor;  
     
     //color = ambient+ diffuse +specular + vColor;
-    //plus specular makes it bright
-    color =  diffuse2 *diffuse * vColor;
+    //plus specular makes it bright 
+    color =  diffuse2 *diffuse *vColor;
     color.a = 1.0;  
 }
   </script>
