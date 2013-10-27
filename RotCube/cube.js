@@ -33,6 +33,7 @@ Cube.prototype.init = function(program, facecolors, pos)
 {
     this.points = []; // this array will hold raw vertex positions
     this.colors = []; // this array will hold per-vertex color data
+    this.normals =[];
     this.transform = mat4(); // initialize object transform as identity matrix
 	this.facecolors = facecolors;
 	this.pos = pos;
@@ -52,6 +53,10 @@ Cube.prototype.init = function(program, facecolors, pos)
     /* send vert positions to the buffer, must repeat this
        wherever we change the vert positions for this cube */
     gl.bufferData( gl.ARRAY_BUFFER, flatten(this.points), gl.STATIC_DRAW );
+
+    this.nBufferId= gl.createBuffer(); //normal vectors
+    gl.bindBuffer( gl.ARRAY_BUFFER, this.nBufferId ); 
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(this.normals), gl.STATIC_DRAW );
 }
 
 Cube.prototype.draw = function(){
@@ -71,14 +76,18 @@ Cube.prototype.draw = function(){
     // map buffer data to the vertex shader attribute
     
     //var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
-    var lightPosition = vec4(15, -10, 1, 0); // x, y, z, ? 
-    var lightAmbient = vec4(0.2, 0.2, 0.2, 10 );
+    var lightPosition = vec4(0, 0, -7, 0); // x, y, z, ? 
+    var lightPosition2 = vec4(0, 3, -7, 0);
+    //r 
+    var lightAmbient = vec4(0, 0, 0, 10 );
     var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
-    var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+    var lightSpecular = vec4( 0, 0, 0, 1 );
 
+        // this is red, green, blue ASK MJ what is the last coord for? 
     var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
-    var materialDiffuse = vec4( 0.5, 0.5, 0.5, 0.5 );
-    var materialSpecular = vec4( 0.5, 0.5, 0.5, 0.5 );
+    
+    var materialDiffuse = vec4( 10, 9, 5, 1 );
+    var materialSpecular = vec4( 0, 0, 0, 1 );
     var materialShininess = 100.0;
     
     var ambientProduct = mult(lightAmbient, materialAmbient);
@@ -89,6 +98,7 @@ Cube.prototype.draw = function(){
     gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
     gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
     gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
+    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition2"), flatten(lightPosition2 ));
     gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
     
 
@@ -142,23 +152,34 @@ Cube.prototype.vcolors = [
 */
 Cube.prototype.mkquad = function(a, b, c, d, e)
 {
+     var t1 = subtract(this.vertices[b], this.vertices[a]);
+     var t2 = subtract(this.vertices[c], this.vertices[b]);
+     var normal = cross(t1, t2);
+     var normal = vec3(normal);
+     normal = normalize(normal);
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( vec4(e) );
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[b]) );
     this.colors.push( vec4(e) );
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( vec4(e) );
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( vec4(e) );
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( vec4(e) );
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[d]) );
     this.colors.push( vec4(e) );
+    this.normals.push(normal); 
 }
 
 /*
