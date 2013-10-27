@@ -20,7 +20,7 @@ Cube.prototype.init = function(program, colors)
     this.points = []; // this array will hold raw vertex positions
     this.colors = []; // this array will hold per-vertex color data
     this.transform = mat4(); // initialize object transform as identity matrix
-
+    this.normals = [];
     // TODO make sure we pass the face colors into this call
     this.mkcube(colors); // delegate to auxiliary function
 
@@ -37,6 +37,11 @@ Cube.prototype.init = function(program, colors)
     /* send vert positions to the buffer, must repeat this
        wherever we change the vert positions for this cube */
     gl.bufferData( gl.ARRAY_BUFFER, flatten(this.points), gl.STATIC_DRAW );
+    
+    this.nBufferId= gl.createBuffer(); //normal vectors
+    gl.bindBuffer( gl.ARRAY_BUFFER, this.nBufferId ); 
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(this.normals), gl.STATIC_DRAW );
+    
 }
 
 Cube.prototype.draw = function(){
@@ -51,6 +56,25 @@ Cube.prototype.draw = function(){
     var xformId = gl.getUniformLocation(this.program, "modeltransform");
     gl.uniformMatrix4fv(xformId, false, flatten(this.transform));
 
+    var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
+        var lightAmbient = vec4(0.2, 0.2, 0.2, 10 );
+        var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
+        var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+
+        var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
+        var materialDiffuse = vec4( 0.5, 0.5, 0.5, 0.5 );
+        var materialSpecular = vec4( 2.0, 2.0, 2.0, 2.0 );
+        var materialShininess = 5.0;
+        
+        var ambientProduct = mult(lightAmbient, materialAmbient);
+        var diffuseProduct = mult(lightDiffuse, materialDiffuse);
+        var specularProduct = mult(lightSpecular, materialSpecular);
+
+        gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
+        gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
+        gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
+        gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
+        gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
     // map buffer data to the vertex shader attribute COLOR VERTICES BUFFER.
@@ -60,11 +84,15 @@ Cube.prototype.draw = function(){
 
     
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBufferId ); // set active array buffer
-    // map buffer data to the vertex shader attribute NORMAL VERTICES BUFFER.
+    // map buffer data to the vertex shader attribute VERTICES BUFFER.
     var vPosId = gl.getAttribLocation( this.program, "vPosition" );
     gl.vertexAttribPointer( vPosId, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosId );
 
+
+    var vNormal = gl.getAttribLocation( this.program, "vNormal" );
+    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
     // now push buffer data through the pipeline to render this object
     gl.drawArrays( gl.TRIANGLES, 0, this.numverts() );
 }
@@ -92,23 +120,36 @@ Cube.prototype.vertices = [
 */
 Cube.prototype.mkquad = function(a, b, c, d, color)
 {
+     var t1 = subtract(this.vertices[b], this.vertices[a]);
+     var t2 = subtract(this.vertices[c], this.vertices[b]);
+     var normal = cross(t1, t2);
+     var normal = vec3(normal);
+     normal = normalize(normal);
+    
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( color );
+    this.normals.push(normal);
 
     this.points.push( vec4(this.vertices[b]) );
     this.colors.push( color );
+    this.normals.push(normal);
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( color );
+    this.normals.push(normal);
 
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( color );
+    this.normals.push(normal);
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( color );
+    this.normals.push(normal);
 
     this.points.push( vec4(this.vertices[d]) );
     this.colors.push( color );
+    this.normals.push(normal);
+
 }
 
 /*
