@@ -41,7 +41,9 @@ function readCubeFile(evt) {
         var contents = e.target.result;
         cubetext = contents;
         definecubecolors(cubetext);
+
         cubenum+=1;
+
       }
       r.readAsText(f);
     } else { 
