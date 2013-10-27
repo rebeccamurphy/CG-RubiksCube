@@ -69,16 +69,17 @@ Cube.prototype.draw = function(){
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
     // map buffer data to the vertex shader attribute
-    /*
-    var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
+    
+    //var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
+    var lightPosition = vec4(15, -10, 1, 0); // x, y, z, ? 
     var lightAmbient = vec4(0.2, 0.2, 0.2, 10 );
     var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
     var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
     var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
     var materialDiffuse = vec4( 0.5, 0.5, 0.5, 0.5 );
-    var materialSpecular = vec4( 2.0, 2.0, 2.0, 2.0 );
-    var materialShininess = 5.0;
+    var materialSpecular = vec4( 0.5, 0.5, 0.5, 0.5 );
+    var materialShininess = 100.0;
     
     var ambientProduct = mult(lightAmbient, materialAmbient);
     var diffuseProduct = mult(lightDiffuse, materialDiffuse);
@@ -89,7 +90,7 @@ Cube.prototype.draw = function(){
     gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
     gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
     gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
-    */
+    
 
     var vColorId = gl.getAttribLocation( this.program, "vColor" );
     gl.vertexAttribPointer( vColorId, 4, gl.FLOAT, false, 0, 0 );
@@ -212,6 +213,6 @@ window.onload = function() {
     addfile();
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
-    //drawables = makesolved(drawables, shaders);
+    drawables = makesolved(drawables, shaders);
     renderScene(); // begin render loop
 }

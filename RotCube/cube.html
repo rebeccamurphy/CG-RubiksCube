@@ -23,14 +23,14 @@ uniform mat4 projection; // projection matrix passed from the app
 uniform mat4 camera; // camera transformation
 uniform mat4 modeltransform; // per-object transform passed from the app
 
-/* OLD LIGHTING CODE
+
 uniform vec4 ambientProduct, diffuseProduct, specularProduct;
 uniform vec4 lightPosition;
 uniform float shininess;
 attribute vec4 vNormal;
-*/
+
 void main() 
-{/* OLD LIGHTING CODE
+{
         vec3 pos = (modeltransform * vPosition).xyz;
         vec3 light = lightPosition.xyz;
         vec3 L = normalize(light -pos);
@@ -47,16 +47,16 @@ void main()
         if( dot(L, N) < 0.0 ) {
         specular = vec4(0.5, 0.5, 0.5, 0.5);
     } 
-     */   
+      
 
     // some per-object matrix ops now done at app level
     // but final matrix chain is processed here
     // It is posible to multiply a lookAt function in here, but i have not been able to get it to work yet. 
 	gl_Position = projection *camera* modeltransform * vPosition ;
-  color = vColor;  
-    /*OLD LIGHTING CODE
+  //color = vColor;  
+    
     color = ambient + diffuse +specular + vColor;
-    color.a = 1.0;  */
+    color.a = 1.0;  
 }
   </script>
 
