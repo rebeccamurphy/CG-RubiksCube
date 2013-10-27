@@ -33,13 +33,13 @@ Cube.prototype.init = function(program, facecolors, pos)
 {
     this.points = []; // this array will hold raw vertex positions
     this.colors = []; // this array will hold per-vertex color data
+    this.normals =[];
     this.transform = mat4(); // initialize object transform as identity matrix
-	this.facecolors = facecolors;
-	this.pos = pos;
-    this.vertexNormals =[];
+        this.facecolors = facecolors;
+        this.pos = pos;
     // TODO make sure we pass the face colors into this call
     this.mkcube(); // delegate to auxiliary function
-	
+        
     this.program = program; // Load shaders and initialize attribute buffers
 
     this.cBufferId = gl.createBuffer(); // reserve a buffer object
@@ -52,11 +52,11 @@ Cube.prototype.init = function(program, facecolors, pos)
     gl.bindBuffer( gl.ARRAY_BUFFER, this.vBufferId ); // set active array buffer
     /* send vert positions to the buffer, must repeat this
        wherever we change the vert positions for this cube */
-
-    //creates vertex buffer   
     gl.bufferData( gl.ARRAY_BUFFER, flatten(this.points), gl.STATIC_DRAW );
 
-    console.log (this.points);
+    this.nBufferId= gl.createBuffer(); //normal vectors
+    gl.bindBuffer( gl.ARRAY_BUFFER, this.nBufferId ); 
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(this.normals), gl.STATIC_DRAW );
 }
 
 Cube.prototype.draw = function(){
@@ -66,50 +66,41 @@ Cube.prototype.draw = function(){
     var projId = gl.getUniformLocation(this.program, "projection"); 
     gl.uniformMatrix4fv(projId, false, flatten(projection));
 
-	var camId = gl.getUniformLocation(this.program, "camera");
+        var camId = gl.getUniformLocation(this.program, "camera");
     gl.uniformMatrix4fv(camId, false, flatten(camera));
-	
+        
     var xformId = gl.getUniformLocation(this.program, "modeltransform");
     gl.uniformMatrix4fv(xformId, false, flatten(this.transform));
 
     gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
     // map buffer data to the vertex shader attribute
-    /* OLD LIGHTING CODE*/
-    //normal vectors?
-    var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
-    var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
-    var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
-    var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+    
+    //var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
+    var lightPosition = vec4(0, 0, -7, 0); // x, y, z, ? 
+    var lightPosition2 = vec4(0, 3, -7, 0);
+    //r 
+    var lightAmbient = vec4(0, 0, 0, 10 );
+    var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
+    var lightSpecular = vec4( 0, 0, 0, 1 );
 
-    var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
-    var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0);
-    var materialSpecular = vec4( 1.0, 0.8, 0.0, 1.0 );
+        // this is red, green, blue ASK MJ what is the last coord for? 
+    var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
+    
+    var materialDiffuse = vec4( 10, 9, 5, 1 );
+    var materialSpecular = vec4( 0, 0, 0, 1 );
     var materialShininess = 100.0;
     
-    ambientProduct = mult(lightAmbient, materialAmbient);
-    diffuseProduct = mult(lightDiffuse, materialDiffuse);
-    specularProduct = mult(lightSpecular, materialSpecular);
+    var ambientProduct = mult(lightAmbient, materialAmbient);
+    var diffuseProduct = mult(lightDiffuse, materialDiffuse);
+    var specularProduct = mult(lightSpecular, materialSpecular);
 
-    gl.uniform4fv(gl.getUniformLocation(this.program, "ambientProduct"),
-       flatten(ambientProduct));
-    gl.uniform4fv(gl.getUniformLocation(this.program, "diffuseProduct"),
-       flatten(diffuseProduct) );
-    gl.uniform4fv(gl.getUniformLocation(this.program, "specularProduct"), 
-       flatten(specularProduct) );  
-    gl.uniform4fv(gl.getUniformLocation(this.program, "lightPosition"), 
-       flatten(lightPosition) );
+    gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
+    gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
+    gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
+    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
+    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition2"), flatten(lightPosition2 ));
+    gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
     
-    gl.uniform1f(gl.getUniformLocation(this.program, "shininess"),materialShininess);
-
-    var nBuffer = gl.createBuffer();
-    gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer );
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(this.vertexNormals), gl.STATIC_DRAW );
-    
-    var vNormal = gl.getAttribLocation( this.program, "vNormal" );
-    gl.vertexAttribPointer( vNormal, 3, gl.FLOAT, false, 0, 0 );
-    gl.enableVertexAttribArray( vNormal );
-
-    thetaLoc = gl.getUniformLocation(this.program, "theta"); 
 
     var vColorId = gl.getAttribLocation( this.program, "vColor" );
     gl.vertexAttribPointer( vColorId, 4, gl.FLOAT, false, 0, 0 );
@@ -121,11 +112,9 @@ Cube.prototype.draw = function(){
     gl.vertexAttribPointer( vPosId, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosId );
 
-
-
     // now push buffer data through the pipeline to render this object
     gl.drawArrays( gl.TRIANGLES, 0, this.numverts() );
-	
+        
 }
 
 /* Returns the total count of vertices to be sent into the pipeline. */
@@ -155,40 +144,42 @@ Cube.prototype.vcolors = [
     [ 0.0, 1.0, 1.0, 1.0 ]  // cyan
 ];
 
+/*
+    Build one of the faces for this cube object.
 
-// e is for color. 
+    TODO change this so that we specify a single color (via a
+        parameter) for the quad face instead of using vcolors
+*/
 Cube.prototype.mkquad = function(a, b, c, d, e)
 {
-    //make normal vector
-        var t1 = subtract(this.vertices[b], this.vertices[a]);
-        var t2 = subtract(this.vertices[c], this.vertices[b]);
-        var normal = cross(t1, t2);
-        var normal = vec3(normal);
-        normal = normalize(normal);
-
+     var t1 = subtract(this.vertices[b], this.vertices[a]);
+     var t2 = subtract(this.vertices[c], this.vertices[b]);
+     var normal = cross(t1, t2);
+     var normal = vec3(normal);
+     normal = normalize(normal);
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( vec4(e) );
-    this.vertexNormals.push(normal);
-    
+    this.normals.push(normal); 
+
     this.points.push( vec4(this.vertices[b]) );
     this.colors.push( vec4(e) );
-    this.vertexNormals.push(normal);
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( vec4(e) );
-    this.vertexNormals.push(normal);
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[a]) );
     this.colors.push( vec4(e) );
-    this.vertexNormals.push(normal);
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[c]) );
     this.colors.push( vec4(e) );
-    this.vertexNormals.push(normal);
+    this.normals.push(normal); 
 
     this.points.push( vec4(this.vertices[d]) );
     this.colors.push( vec4(e) );
-    this.vertexNormals.push(normal);
+    this.normals.push(normal); 
 }
 
 /*
@@ -198,8 +189,8 @@ Cube.prototype.mkquad = function(a, b, c, d, e)
 */
 Cube.prototype.mkcube = function()
 {
-	//each of these is one face
-	//last param is color. 
+        //each of these is one face
+        //last param is color. 
     this.mkquad( 1, 0, 3, 2, this.facecolors[0] );
     this.mkquad( 2, 3, 7, 6, this.facecolors[1] );
     this.mkquad( 3, 0, 4, 7, this.facecolors[2] );
@@ -241,17 +232,8 @@ Cube.prototype.orbit = function(angle, axis){
 window.onload = function() {
     initGL(); // basic WebGL setup for the scene 
     addfile();
-    var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
-    var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
-    var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
-    var yellow =[ 1.0, 1.0, 0.0, 1.0 ]; // yellow
-    var green =[ 0.0, 1.0, 0.0, 1.0 ]; // green
-    var blue =[ 0.0, 0.0, 1.0, 1.0 ]; // blue
-    var magenta=[ 1.0, 0.0, 1.0, 1.0 ]; // magenta
-    var white =[ 1.0, 1.0, 1.0, 1.0 ]; // white
-    var cyan = [ 0.0, 1.0, 1.0, 1.0 ]; // cyan
     // load and compile our shaders into a program object
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
-    drawables.push (new Cube(shaders, [black, black, black, yellow, red,green] , posindex [0] ));
+    drawables = makesolved(drawables, shaders);
     renderScene(); // begin render loop
 }
