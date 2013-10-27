@@ -68,8 +68,9 @@ void main()
     }
 
   gl_Position = projection *camera* modeltransform * vPosition ;
-  color = ambient + diffuse +specular + vColor;
-  color.a = 1.0;
+  color = vColor;
+  //color = ambient + diffuse +specular + vColor;
+  //color.a = 1.0;
     //colors is the last. similar to camera order. 
     //+ adds light, - detracts and inverts, multiply detracts it. / desaturates?
 

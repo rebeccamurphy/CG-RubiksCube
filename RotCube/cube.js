@@ -240,7 +240,7 @@ Cube.prototype.orbit = function(angle, axis){
 /* Set up event callback to start the application */
 window.onload = function() {
     initGL(); // basic WebGL setup for the scene 
-    addfile();
+    
     var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
     var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
     var orange =[ 1.0, .5, 0.0, 1.0 ]; // orange
