@@ -28,7 +28,7 @@ uniform vec4 ambientProduct, diffuseProduct, specularProduct;
 uniform vec4 lightPosition;
 uniform vec4 lightPosition2;
 uniform float shininess;
-
+//put everything in fragment shaderslideset 22
 
 varying highp vec3 vLighting;
     
@@ -48,7 +48,7 @@ void main()
         vec4 specular = Ks * specularProduct;
         
         if( dot(L, N) < 0.0 ) {
-        specular = vec4(0.5, 0.5, 0.5, 0.5);
+        specular = vec4(0, 0, 0, 0); // check slide
     } 
         pos = (modeltransform * vPosition).xyz; //directional?
         light = lightPosition2.xyz;
@@ -81,7 +81,7 @@ void main()
     
     //color = ambient+ diffuse +specular + vColor;
     //plus specular makes it bright 
-    color =  diffuse2 *diffuse * vColor;
+    color =  specular+ diffuse + vColor;
     color.a = 1.0;  
 }
   </script>
