@@ -34,8 +34,8 @@ function initGL()
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     gl.viewport( 0, 0, canvas.width, canvas.height ); // use the whole canvas
-    // black gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // background color
-    gl.clearColor( 0.0, 5.0, 0.0, 1.0 ); // background color
+     gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // background color black
+    //gl.clearColor( 0.0, 5.0, 0.0, 1.0 ); // background color
     gl.enable(gl.DEPTH_TEST); // required for 3D hidden-surface elimination
 	
 	// set the projection matrix
@@ -108,21 +108,37 @@ function initGL()
     
 }
 /* Global render callback - would draw multiple objects if there were more than one */
-step=0, turncount =0;
+step=0, turncount =0, rando =0;
 var renderScene = function(){
     // start from a clean frame buffer for this frame
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     // loop over all objects and draw each
     //HEY change numcubes
-    if (anistart == true)
+   /* if (anistart == true)
     {   //try to do something with time
         animatecubes();
 		anistart =false; 
 	}
-	else
-		animatecubes();
+	else*/
+		
 
     // queue up this same callback for the next frame
-    requestAnimFrame(renderScene);
-}
+     if (anistart == true )
+    		 	
+    { 	for (i in drawables)
+    		drawables[i].draw();
+    	setTimeout(function() {
+
+    		requestAnimFrame(renderScene);
+    		animatecubes();
+    					}, 300) ;
+		
+		anistart = false;
+	}
+	else
+		{	animatecubes();
+			requestAnimFrame(renderScene);
+
+		}
+	}

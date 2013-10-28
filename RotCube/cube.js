@@ -81,14 +81,14 @@ Cube.prototype.draw = function(){
     //r 
     var lightAmbient = vec4(0, 0, 0, 10 );
     var lightDiffuse = vec4( 0.1, 0.1, 0.1, 0.1 );
-    var lightSpecular = vec4( 0, 0, 0, 1 );
+    var lightSpecular = vec4( 0.1, 0.1, 0.1, .1 );
 
         // this is red, green, blue ASK MJ what is the last coord for? 
     var materialAmbient = vec4( 1.0, 1.0, 1.0, 1.0 );
     
     var materialDiffuse = vec4( 9, 10, 7, 6 );
     var materialSpecular = vec4( 0, 0, 0, 1 );
-    var materialShininess = 100.0;
+    var materialShininess = 10.0;
     
     var ambientProduct = mult(lightAmbient, materialAmbient);
     var diffuseProduct = mult(lightDiffuse, materialDiffuse);
