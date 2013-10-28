@@ -25,10 +25,11 @@ uniform mat4 modeltransform; // per-object transform passed from the app
 
 
 uniform vec4 ambientProduct, diffuseProduct, specularProduct;
+uniform vec4 ambientProduct2, diffuseProduct2, specularProduct2;
 uniform vec4 lightPosition;
 uniform vec4 lightPosition2;
 uniform float shininess;
-//put everything in fragment shaderslideset 22
+//put everything in fragment shaderslideset 22 dont need to mult by model view 
 
 varying highp vec3 vLighting;
     
@@ -59,7 +60,7 @@ void main()
         N = normalize((modeltransform*vNormal).xyz);
         vec4 ambient2 = ambientProduct;
         Kd = max( dot(L,H), 0.0); //N instead of H?
-        vec4 diffuse2 = Kd*diffuseProduct;
+        vec4 diffuse2 = Kd*diffuseProduct2;
         Ks = pow( max(dot(N,H),0.0), shininess);
         vec4 specular2 = Ks * specularProduct;
         
@@ -81,7 +82,7 @@ void main()
     
     //color = ambient+ diffuse +specular + vColor;
     //plus specular makes it bright 
-    color =  specular+ diffuse + vColor;
+    color =  specular+ diffuse + diffuse2+ vColor;
     color.a = 1.0;  
 }
   </script>

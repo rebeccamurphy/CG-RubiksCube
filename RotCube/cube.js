@@ -80,22 +80,24 @@ Cube.prototype.draw = function(){
     var lightPosition2 = vec4(0, -3, -7, 0);
     //r 
     var lightAmbient = vec4(0, 0, 0, 10 );
-    var lightDiffuse = vec4( 1, 1, 1, 1 );
-    var lightSpecular = vec4( 1, 1, 1, 1 );
+    var lightDiffuse = vec4( .25, .25, .25, 1 );
+    var lightSpecular = vec4( .1, .1, .1, .1 );
 
         // this is red, green, blue ASK MJ what is the last coord for? 
     var materialAmbient = vec4( 0.1, 0.1, 0.1, 1.0 );
     
-    var materialDiffuse = vec4( 1, 1, 1, 1 ); // just use white here...
-    var materialSpecular = vec4( 0, 0, 0, 1 );
+    var materialDiffuse = vec4( 1, 1, 1, 1 ); // just use white here... make into black for shadows? use for diffuse2!
+    var materialSpecular = vec4( 1, 1, 1, 1 );
     var materialShininess = 10.0;
     
     var ambientProduct = mult(lightAmbient, materialAmbient);
     var diffuseProduct = mult(lightDiffuse, materialDiffuse); // multiply this by vColorin the shader
+    var diffuseProduct2 = mult(lightDiffuse, vec4( 0, 0, 0, 1 )); // multiply this by vColorin the shader
     var specularProduct = mult(lightSpecular, materialSpecular);
 
     gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
     gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
+     gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct2"), flatten(diffuseProduct2) );
     gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
     gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
     gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition2"), flatten(lightPosition2 ));
@@ -226,5 +228,3 @@ Cube.prototype.orbit = function(angle, axis){
 
     this.transform = mult(rotate(angle, avec), this.transform);
 }
-
-
