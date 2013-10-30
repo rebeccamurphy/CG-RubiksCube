@@ -67,7 +67,7 @@ function initGL()
 			//This button makes projection perspective 
 			//projection = perspective(30.0, 2.0, 1, 100);
 			//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
-			 camera = lookAt([-6,-3,-10], [-1,0,0], [0,1,0]);	
+			 camera = lookAt([-7,-10,-13], [0,0,0], [0,1,0]);	
         },
         false
     );
@@ -77,18 +77,29 @@ function initGL()
         function(){
 				//This button makes the projection ortho
 				//projection = ortho(-2, 2, -1.5, 1, -1, 100);
-				camera = lookAt([7,10,10], [0,0,0], [0,1,0]);
+				camera = lookAt([7,10,13], [0,0,0], [0,1,0]);
+
         },
         false
     );
 
+    var f = document.getElementById("Btn_DC");
+    f.addEventListener("click",
+        function(){
+               var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
+                drawables=[];
+            // load and compile our shaders into a program object
+                drawables = makesolved(drawables, shaders);
+        },
+        false
+    );
 
 	var ani = document.getElementById("Btn_Ani");
     ani.addEventListener("click",
         function(){
            		
-			
-           		if (animate==false && solution!=[])
+			     var warning ='';
+           		if (animate==false && solutiontext!='' &&  drawables.length !=0)
            		{
            		
            		if ( cubenum >1||reani>0 )
@@ -101,6 +112,13 @@ function initGL()
 				step=0;
 				turncount=0;
 				}
+                if (solutiontext=='')
+                    warning +='Make you sure upload a solution file. ';
+                if (drawables.length ==0)
+                    warning += 'Upload a cube or press default cube to create a solved cube.'
+                if (warning !='')
+                    alert(warning);
+
 				
         },
         false
@@ -113,28 +131,27 @@ var renderScene = function(){
     // start from a clean frame buffer for this frame
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    // loop over all objects and draw each
-    //HEY change numcubes
-   /* if (anistart == true)
-    {   //try to do something with time
-        animatecubes();
-		anistart =false; 
-	}
-	else*/
-		
-
-    // queue up this same callback for the next frame
-     if (anistart == true )
+    
+    
+     if (anistart==true )
     		 	
-    { 	for (i in drawables)
-    		drawables[i].draw();
+    { 	if (reani !=1)
+        { 
+        for (i in drawables)
+    	drawables[i].draw();
     	setTimeout(function() {
 
     		requestAnimFrame(renderScene);
     		animatecubes();
-    					}, 300) ;
+    					}, 350) ;
 		
 		anistart = false;
+        }
+        else
+        {   animatecubes();
+            requestAnimFrame(renderScene);
+            anistart =false;
+        }
 	}
 	else
 		{	animatecubes();

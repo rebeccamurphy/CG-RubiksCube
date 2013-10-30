@@ -1,5 +1,4 @@
 
-
 function position(coord, turns)
 {
 	this.coord = coord;

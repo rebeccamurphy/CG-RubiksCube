@@ -75,24 +75,25 @@ Cube.prototype.draw = function(){
    
     
     //var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
-    var lightPosition = vec4(-30.0, -20.0, -20.0, -1.0 );
-    var lightAmbient = vec4(-0.0, -0.1, -0.1, -1.0 );
-    var lightDiffuse = vec4( -1.0, -1.0, -1.0, -1.0 );
-    var lightSpecular = vec4( -.4, -.35, -.45, -0.0 );
+    var lightPosition = vec4(-25.0, -20.0, 20.0, 1.0 );
+    var lightAmbient = vec4(0.0, -0.1, -0.1, 1.0 );
+    var lightDiffuse = vec4( -1.0, -1.0, -.2, 1.0 ); //makes the dark spots. 
+    var lightSpecular = vec4( -.4, -.35, -.45, 0.0 );
         
 
-    var materialAmbient = vec4( 3.0, 2.0, 4.0,1.0 );
+    var materialAmbient = vec4( 3.0, 2.0, 1.0,1.0 );
     var materialDiffuse = vec4( 0.5, 0.55, 0.5, 1.0 );
     var materialSpecular = vec4( 0.5, 1, 2, 0 );
         
-        var lightPosition2 = vec4(10.0, 11.0, 10.0, 1.0 );
-        var lightAmbient2 = vec4(1, 0, 0.5, -0.0 );
-        var lightDiffuse2 = vec4( 1, 1.0, 1.0, -1.0 );
-        var lightSpecular2 = vec4( 0.4, 0.4, 0.6, 1.0 );
+    var lightPosition2 = vec4(15.0, 18.0, 15.0, 1.0 );
+    var lightAmbient2 = vec4(1, 0, 0.5, 0.0 );
+    var lightDiffuse2 = vec4( 1, 1.0, 1.0, 1.0 );
+    var lightSpecular2 = vec4( 0.4, 0.4, 0.6, 1.0 );
 
-        var materialAmbient2 = vec4( 1.0, 0.0, 0.0, 1.0 );
-        var materialDiffuse2 = vec4( .2, .2, .2, 0.0);
-        var materialSpecular2 = vec4( 1.2, 1.2, 3, 1.0 );
+    var materialAmbient2 = vec4( .120, 0.120, 0.120, 1.0 );
+    var materialDiffuse2 = vec4( .2, .2, .2, 0.0);
+    var materialSpecular2 = vec4( 1.5, 1.5, 2, 1.0 );
+    
     var materialShininess = 50.0;
     
         
