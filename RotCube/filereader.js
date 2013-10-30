@@ -8,18 +8,18 @@ window.onload = function() {
     initGL(); // basic WebGL setup for the scene 
     var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
     addfile();
-    // load and compile our shaders into a program object
-    //drawables = makesolved(drawables, shaders);
+    //initializes all the necessary buttons and functions for the program.
     renderScene(); // begin render loop
 }
 
+//this function was created to strip the whitespace ofthe text read in, just in case
 String.prototype.killWhiteSpace = function() {
     return this.replace(/\s/g, '');
 };
 
-function definecubecolors(text)
+function definecubecolors(text) 
 {
-
+  //takes the text from the file and translate the patten into the colors of the cube. 
   text =text.killWhiteSpace();
   var backside = text.substr(0,9); //only affects backside color of -1 cubes starting with [-1,6]
   var leftside = "";
@@ -34,6 +34,7 @@ function definecubecolors(text)
   }
   var frontside= text.substr(36,9);
   var bottomside = text.substr(45, 9);
+  //to create  a new cube, drawables is emptied, and a new cube is made with the right colors from the text file. 
   drawables = [];
   var shaders = initShaders( gl, "vertex-shader", "fragment-shader" )
   makecube(drawables,shaders , backside, leftside, topside, rightside,frontside,bottomside);
@@ -44,6 +45,7 @@ function definecubecolors(text)
 
 function readCubeFile(evt) {
     //Retrieve the first (and only!) File from the FileList object
+    //correspons to the choose file for Cube. 
     var f = evt.target.files[0]; 
 
     if (f) {
@@ -62,8 +64,9 @@ function readCubeFile(evt) {
       alert("Failed to load file");
     }
   }
+
 function definesolution(sol)
-{
+{//translates the solution text to an array of turns for the cube.
   var slt=[]
   for(var i =0; i<sol.length; i+=2 )
   {
@@ -71,8 +74,10 @@ function definesolution(sol)
   }
   solution = slt;
 }
+
 function readSolFile(evt) {
     //Retrieve the first (and only!) File from the FileList object
+    //corresponds to the choose file for solution
     var f = evt.target.files[0]; 
 
     if (f) {
@@ -89,6 +94,7 @@ function readSolFile(evt) {
   }
 
 function addfile(){
+  //attaches the functions defined in initGL to the buttons. 
   var doc = document.getElementById('cubeinput');
   doc.addEventListener('change', readCubeFile, false);
 

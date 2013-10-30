@@ -1,6 +1,6 @@
 function animation(turncolor, i)
 {
-//switch(solution[step].charAt(0))
+// checks if the cube is turnable for the color, and orbits the cube accordingly. 
 switch (turncolor)			{
 				case 'Y':
 					if (drawables[i].pos.turns.indexOf(turncolor) !=-1)
@@ -35,16 +35,13 @@ switch (turncolor)			{
 
 }
 
-	var i;
-	var numcubes =27;
+var i;
+var numcubes =27; // the total angle needs to be 90 * the number of cubes in drawables. 
+
 function animatecubes(){
     for (i in drawables) {
-
-    	//MAKE THIS INTO FUNCTION AND DO A TIMEOUT ON THAT FUNCTION.
-		//if (turn == true&& angle !=90.0*numcubes  ) 
+    
 		if (animate == true&& angle !=90.0*numcubes  ) 
-
-
 		{	
 			animation(solution[step].charAt(0), i);
 
@@ -56,9 +53,7 @@ function animatecubes(){
 					for (i in drawables)
 					 {
 					 	changepos(drawables[i], solution[step].charAt(0));
-					 	
-					 }
-					//HEY add something for animate here.
+					}
 					angle =0;
 					turn = false;
 					turncolor ='';

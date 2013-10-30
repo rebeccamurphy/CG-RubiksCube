@@ -1,4 +1,4 @@
-
+//the basis for keeping track of where each cube is. a position had a coordinate array and an array of possible turns associated with that position
 function position(coord, turns)
 {
 	this.coord = coord;
@@ -66,21 +66,22 @@ function makeposindex()
 	return posindex;
 }
 
-
+//the posindex an array of reference coordinates and how they are turnable. 
+//for example, if a cube moves into a new position, you can find that position in posindex, and give the cube the new position
 var posindex = makeposindex();
 
-
-function getposition(posit, posindex){
+//takes in a coord and the posindex, and returns the position associated with it.
+function getposition(coord, posindex){
 	
 	for (var i =0; i< posindex.length; i++)
 	{
-		if (posindex[i].coord.toString() == posit.toString() )
+		if (posindex[i].coord.toString() == coord.toString() )
 			
 			return posindex[i];
 	}
 
 }
-
+//creates a solved cube stored in drawables
 function makesolved(drawables, shaders){
 	var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
     var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
@@ -232,7 +233,8 @@ function makesolved(drawables, shaders){
 	return drawables;
 }
 
-
+//each of these functinos is used in changepos, depending on what color is turned causes one of these functions to excute, and changes
+//the position of the cube based on the color turned and its current position
 
 function innerchangeposY(cube)
 {
@@ -574,6 +576,7 @@ switch(cube.pos.coord[0]) // how far away
 }
 }
 
+//actually changes the position of the moved cubes after a turn. 
 function changepos(cube, turn) {
 switch(turn)
 { 

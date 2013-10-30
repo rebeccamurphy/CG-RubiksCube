@@ -34,8 +34,7 @@ function initGL()
     if ( !gl ) { alert( "WebGL isn't available" ); }
 
     gl.viewport( 0, 0, canvas.width, canvas.height ); // use the whole canvas
-     gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // background color black
-    //gl.clearColor( 0.0, 5.0, 0.0, 1.0 ); // background color
+    gl.clearColor( 0.0, 0.0, 0.0, 1.0 ); // background color black
     gl.enable(gl.DEPTH_TEST); // required for 3D hidden-surface elimination
 	
 	// set the projection matrix
@@ -64,9 +63,7 @@ function initGL()
 	var c = document.getElementById("Btn_PV");
     c.addEventListener("click",
         function(){
-			//This button makes projection perspective 
-			//projection = perspective(30.0, 2.0, 1, 100);
-			//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
+                //Looks at the bottom back of the cube.
 			 camera = lookAt([-7,-10,-13], [0,0,0], [0,1,0]);	
         },
         false
@@ -75,8 +72,7 @@ function initGL()
     var e = document.getElementById("Btn_OV");
     e.addEventListener("click",
         function(){
-				//This button makes the projection ortho
-				//projection = ortho(-2, 2, -1.5, 1, -1, 100);
+				//looks at the front top of the cube.
 				camera = lookAt([7,10,13], [0,0,0], [0,1,0]);
 
         },
@@ -86,6 +82,7 @@ function initGL()
     var f = document.getElementById("Btn_DC");
     f.addEventListener("click",
         function(){
+            //makes a default solved cube.
                var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
                 drawables=[];
             // load and compile our shaders into a program object
@@ -97,14 +94,21 @@ function initGL()
 	var ani = document.getElementById("Btn_Ani");
     ani.addEventListener("click",
         function(){
-           		
+           		//animates the solution only if a cube is loaded and a solution text is uploaded. 
 			     var warning ='';
            		if (animate==false && solutiontext!='' &&  drawables.length !=0)
            		{
            		
            		if ( cubenum >1||reani>0 )
+
            		{	
+                    if (cubetext!='')
                     definecubecolors(cubetext);
+                    else
+                    {    drawables =[];
+                        var shaders = initShaders( gl, "vertex-shader", "fragment-shader" );
+                    drawables = makesolved(drawables, shaders);
+                    }
 				}
 				animate =true;
 				anistart =true;
@@ -129,13 +133,11 @@ function initGL()
 step=0, turncount =0, rando =0;
 var renderScene = function(){
     // start from a clean frame buffer for this frame
-    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-    
+    gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);    
     
      if (anistart==true )
     		 	
-    { 	if (reani !=1)
+    { 	if (reani !=1) // if the cube is being reanimated, it will reset the state of the cube, and then wait 350 milisecs, then start tha animation
         { 
         for (i in drawables)
     	drawables[i].draw();
