@@ -11,20 +11,7 @@
     Constructor for ColorCube objects
    
  */
-/*
-Notes on functions taken in class. 
 
-// ortho (l,r,b,t,n,f)
-//var cam = lookAt(eye,at,up);
-//var modelview = mult(cam, mod);
-//var proj = perspective (fovy, aspect, n f)
-//var mod = translate (...); 
-//attibute vec4 vposition;
-// uniform mat4 proj; uniform is the type of variable so it can be passed down the pipeline
-//uniform mat4 modelview mat4 modelview;
-// gl_Position = projection * modelview *vposition; 
- 
- */
  //I added a paramater to cube, called pos. Pos is the positon of the cube. 
 
 var Cube = function (program, facecolors, pos) { this.init(program, facecolors, pos); }

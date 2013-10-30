@@ -1,3 +1,8 @@
+/*
+  filereader.js -Adds filereading capabilities as well as storing the text files as variables containing instructions for the program.
+*/
+
+
 var cubetext ="";
 var cubenum = 0;
 var solutiontext="";

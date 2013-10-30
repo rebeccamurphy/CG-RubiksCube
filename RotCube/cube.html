@@ -1,7 +1,8 @@
 <!doctype html>
 <!--
     cube.html - Demonstrates rendering and animation of simple cube objects
-
+    Rebecca Murphy
+    Notes: the window.onload() function is located in filereader.js
     
 -->
 <html xmlns="http://www.w3.org/1999/hmtl" lang="en">
@@ -12,7 +13,7 @@
     canvas { background: blue; }
   </style>
 
- <script id="vertex-shader" type="x-shader/x-vertex">
+<script id="vertex-shader" type="x-shader/x-vertex">
 attribute vec4 vPosition; // vert attribs bound to array buffer data 
 attribute vec4 vColor; // vert attribs bound to array buffer data
 attribute vec4 vNormal; //vert attribs bound to array buffer data
@@ -31,7 +32,7 @@ uniform float shininess;
 
 void main() 
 {
-    //creates all the lighting for both light sources.
+    //creates all the lighting for both light sources.(taken from the power points)
     vec3 pos = -(modeltransform * vPosition).xyz;
     
     vec3 light = lightPosition.xyz;
@@ -48,7 +49,7 @@ void main()
 
     // Transform vertex normal into eye coordinates
     vec3 N = normalize( (modeltransform*vNormal).xyz);
-    // Compute terms in the illumination equation
+    // Compute terms in the illumination equation (taken from the power points)
     vec4 ambient = ambientProduct;
     vec4 ambient2 = ambientProduct2;
     
@@ -80,7 +81,7 @@ void main()
 }
   </script>
 
-  <script id="fragment-shader" type="x-shader/x-fragment">
+<script id="fragment-shader" type="x-shader/x-fragment">
 #ifdef GL_ES
 precision highp float;
 #endif
@@ -123,7 +124,7 @@ main()
         <p style="color:white";align="right">Use this button to select Solution
         <input type="file" id="solinput" />        
         </p>
-    
+      <p style="color:white";align="left"> One you have uploaded the files, press Animate Solution. If you want to replay the animation, simply press Animate Solution again. </p>
     </div>
 </body>
 </html>

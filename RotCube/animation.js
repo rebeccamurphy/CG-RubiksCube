@@ -1,3 +1,6 @@
+/*
+	animation.js -Moves cubes located in drawables according to the uploaded solutions text.
+*/
 function animation(turncolor, i)
 {
 // checks if the cube is turnable for the color, and orbits the cube accordingly. 

@@ -1,3 +1,7 @@
+/*
+	rubiksfunctions.js - Keep track of Cubes positions and updates them after a side is turned.
+*/
+
 //the basis for keeping track of where each cube is. a position had a coordinate array and an array of possible turns associated with that position
 function position(coord, turns)
 {

@@ -13,10 +13,7 @@ const Z_AXIS = 2;
 var camera;
 
 var angle=0;
-var turnr = false;
-var turnl = false;
-var turncolor="";
-var turn = false;
+var turncolor=""; //stores the turn color
 var drawables = [];
 var anistart = false;
 var reani = 0;
@@ -40,24 +37,7 @@ function initGL()
 	// set the projection matrix
 	projection = perspective(30.0, 2.0, 1, 100);
 	//projection = mult(projection, lookAt(vec3(5, 0, 10), vec3(0,0,0), vec3(0,1,0)));
-	 camera = lookAt([7,10,13], [0,0,0], [0,1,0]);
-
-	/*
-		
-		Notes on projection and camera, different things I tried, and just general messing around.
-		
-    // note: added rotation just to better see the shapes of our cubes
-    //projection = ortho(-2, 2, -1.5, 1.5, -100, 100);
-    The smaller the angle the bigger the cubes get
-	//projection = lookAt([0,0,0],[0,0,0],[0,0,0])* projection;
-	//projection = mult(projection, rotate(30, [0.5, 1, 0.12]));
-	What do the numbers of eye signify? at is wear the camera will be pointing, so 0,0,0 would be the origin.  
-	does eye and up correspond to near and far? 
-	What causes it to shift sideways? 
-	up = (x, y, z) x leans it left, y vertical, z right
-	projection = mult(projection, lookAt( vec3([0,0,0]), vec3 ([0,0,0]), vec3([0,0,0])));
-	*/
-	
+	 camera = lookAt([7,10,13], [0,0,0], [0,1,0]); // sets the starting point to look at.
 	
     // set up an event handler for this button
 	var c = document.getElementById("Btn_PV");
@@ -130,34 +110,35 @@ function initGL()
     
 }
 /* Global render callback - would draw multiple objects if there were more than one */
-step=0, turncount =0, rando =0;
+step=0, turncount =0; //step keeps track of which part of the solution the program is animating, and turncount keeps track how many times that step has turned.
 var renderScene = function(){
     // start from a clean frame buffer for this frame
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);    
     
-     if (anistart==true )
-    		 	
-    { 	if (reani !=1) // if the cube is being reanimated, it will reset the state of the cube, and then wait 350 milisecs, then start tha animation
-        { 
-        for (i in drawables)
-    	drawables[i].draw();
-    	setTimeout(function() {
-
-    		requestAnimFrame(renderScene);
-    		animatecubes();
-    					}, 350) ;
+    if (anistart==true )		 	
+    { 	
+    	if (reani !=1) // if the cube is being reanimated, it will reset the state of the cube, and then wait 350 milisecs, then start tha animation
+        	{ 
+        		for (i in drawables) //draws all the new cubes, then starts to animate them. 
+    				drawables[i].draw();
+    				
+    				setTimeout(function() {
+    					requestAnimFrame(renderScene);
+    						animatecubes();
+    										}, 350) ;
 		
-		anistart = false;
-        }
+				anistart = false;
+        	}
         else
-        {   animatecubes();
+    	   {   
+    	    animatecubes();
             requestAnimFrame(renderScene);
             anistart =false;
-        }
+ 	       }
 	}
 	else
-		{	animatecubes();
+		{	
+			animatecubes();
 			requestAnimFrame(renderScene);
-
 		}
 	}
