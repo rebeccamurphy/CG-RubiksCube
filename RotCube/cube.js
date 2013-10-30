@@ -86,7 +86,8 @@ Cube.prototype.draw = function(){
     //var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 ); old light position. 
     //I believe the negative colors here cause the shadows on the cube.
     //I found out the hard way specular light does not show up on the cube with certain light positions.
-    
+    // Lines 90-150 define the lighting for each cube as well as initiate the proper buffers.
+
     var lightPosition = vec4(-25.0, -20.0, 20.0, 1.0 ); 
     var lightAmbient = vec4(0.0, -0.1, -0.1, 1.0 );
     var lightDiffuse = vec4( -1.0, -1.0, -.2, 1.0 );  
@@ -94,16 +95,16 @@ Cube.prototype.draw = function(){
         
 
     var materialAmbient = vec4( 3.0, 2.0, 1.0,1.0 );
-    var materialDiffuse = vec4( 0.5, 0.55, 0.5, 1.0 );
+    var materialDiffuse = vec4( 0.5, 0.7, 0.5, 1.0 );
     var materialSpecular = vec4( 0.5, 1, 2, 0 );
         
     var lightPosition2 = vec4(15.0, 18.0, 15.0, 1.0 );
-    var lightAmbient2 = vec4(1, 0, 0.5, 0.0 );
-    var lightDiffuse2 = vec4( 1, 1.0, 1.0, 1.0 );
+    var lightAmbient2 = vec4(.50, 0.0, 0.0, 0.0 );
+    var lightDiffuse2 = vec4( 1.0, 1.0, 1.0, 1.0 );
     var lightSpecular2 = vec4( 0.4, 0.4, 0.6, 1.0 );
 
-    var materialAmbient2 = vec4( .120, 0.120, 0.120, 1.0 );
-    var materialDiffuse2 = vec4( .2, .2, .2, 0.0);
+    var materialAmbient2 = vec4( 0.120, 0.120, 0.120, 1.0 );
+    var materialDiffuse2 = vec4( 0.2, 0.2, 0.2, 1.0);
     var materialSpecular2 = vec4( 1.5, 1.5, 2, 1.0 );
     
     var materialShininess = 75.0;
@@ -112,18 +113,22 @@ Cube.prototype.draw = function(){
     var ambientProduct = mult(lightAmbient, materialAmbient);
     var diffuseProduct = mult(lightDiffuse, materialDiffuse);
     var specularProduct = mult(lightSpecular, materialSpecular);
+
     var ambientProduct2 = mult(lightAmbient2, materialAmbient2);
     var diffuseProduct2 = mult(lightDiffuse2, materialDiffuse2);
     var specularProduct2 = mult(lightSpecular2, materialSpecular2);
 
+    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition));
     gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
     gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
-    gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
-    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition));
+    gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));
+
+    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition2"), flatten(lightPosition2 ));
     gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct2"),flatten(ambientProduct2));
     gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct2"), flatten(diffuseProduct2) );
     gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct2"),flatten(specularProduct2));                
-    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition2"), flatten(lightPosition2 ));
+    
+
     gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
 
     

@@ -39,6 +39,7 @@ var i;
 var numcubes =27; // the total angle needs to be 90 * the number of cubes in drawables. 
 
 function animatecubes(){
+	//animates the cubes , checking if enough turns have excuted of the color, if so, moves onto the next color turn. 
     for (i in drawables) {
     
 		if (animate == true&& angle !=90.0*numcubes  ) 

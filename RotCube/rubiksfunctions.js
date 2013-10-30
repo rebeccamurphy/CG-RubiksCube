@@ -606,6 +606,7 @@ break;
 }
 
 function chartocolor(C){
+	//this function is just to change the letter from the text file to the corresponding color value. 
 	var colorsvalues =[];
 	var colors = [];
 	var red =[ 1.0, 0.0, 0.0, 1.0 ]; // red
@@ -622,7 +623,7 @@ function chartocolor(C){
 }
 
 function makecube(drawable, shaders,backside, leftside, topside, rightside,frontside,bottomside){
-	
+	//this function makes a rubik's cube using the parsed text file.
 	
 	var black =[ 0.0, 0.0, 0.0, 1.0 ]; // black
 	
@@ -632,6 +633,7 @@ function makecube(drawable, shaders,backside, leftside, topside, rightside,front
 	
 	//var ls = 1;
 	for (var ls =-1; ls <2; ls++)
+		//one loop creates one 3x3 square l distance from the origin. 
 	{
 	pos+=9
 	{
@@ -687,7 +689,7 @@ function makecube(drawable, shaders,backside, leftside, topside, rightside,front
 	
 	break;
 	}
-	
+	//moves the cubes so they form a 3x3 square
     ctop.move(1.0, Y_AXIS);
 	ctop.move(ls, Z_AXIS);
 	ctop.move(space, Y_AXIS);
@@ -751,6 +753,8 @@ function makecube(drawable, shaders,backside, leftside, topside, rightside,front
 	clsidebot.move(-space, X_AXIS);
 	clsidebot.move(space*ls, Z_AXIS);
 	
+	//pushes all the cubes to drawables starting on the top left, and moving through like a typewriter
+
 	drawable.push( clsidetop);  
 	drawable.push( ctop);
 	drawable.push( crsidetop );
