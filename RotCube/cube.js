@@ -72,37 +72,48 @@ Cube.prototype.draw = function(){
     var xformId = gl.getUniformLocation(this.program, "modeltransform");
     gl.uniformMatrix4fv(xformId, false, flatten(this.transform));
 
-    gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
-    // map buffer data to the vertex shader attribute
+   
     
     //var lightPosition = vec4(10.0, 10.0, 10.0, 0.0 );
-    var lightPosition = vec4(0, 0, -7, 0); // x, y, z, ? 
-    var lightPosition2 = vec4(0, -3, -7, 0);
-    //r 
-    var lightAmbient = vec4(0, 0, 0, 10 );
-    var lightDiffuse = vec4( .25, .25, .25, 1 );
-    var lightSpecular = vec4( .1, .1, .1, .1 );
+    var lightPosition = vec4(-30.0, -20.0, -20.0, -1.0 );
+    var lightAmbient = vec4(-0.0, -0.1, -0.1, -1.0 );
+    var lightDiffuse = vec4( -1.0, -1.0, -1.0, -1.0 );
+    var lightSpecular = vec4( -.4, -.35, -.45, -0.0 );
+        
 
-        // this is red, green, blue ASK MJ what is the last coord for? 
-    var materialAmbient = vec4( 0.1, 0.1, 0.1, 1.0 );
+    var materialAmbient = vec4( 3.0, 2.0, 4.0,1.0 );
+    var materialDiffuse = vec4( 0.5, 0.55, 0.5, 1.0 );
+    var materialSpecular = vec4( 0.5, 1, 2, 0 );
+        
+        var lightPosition2 = vec4(10.0, 11.0, 10.0, 1.0 );
+        var lightAmbient2 = vec4(1, 0, 0.5, -0.0 );
+        var lightDiffuse2 = vec4( 1, 1.0, 1.0, -1.0 );
+        var lightSpecular2 = vec4( 0.4, 0.4, 0.6, 1.0 );
+
+        var materialAmbient2 = vec4( 1.0, 0.0, 0.0, 1.0 );
+        var materialDiffuse2 = vec4( .2, .2, .2, 0.0);
+        var materialSpecular2 = vec4( 1.2, 1.2, 3, 1.0 );
+    var materialShininess = 50.0;
     
-    var materialDiffuse = vec4( 1, 1, 1, 1 ); // just use white here... make into black for shadows? use for diffuse2!
-    var materialSpecular = vec4( 1, 1, 1, 1 );
-    var materialShininess = 10.0;
-    
+        
     var ambientProduct = mult(lightAmbient, materialAmbient);
-    var diffuseProduct = mult(lightDiffuse, materialDiffuse); // multiply this by vColorin the shader
-    var diffuseProduct2 = mult(lightDiffuse, vec4( 0, 0, 0, 1 )); // multiply this by vColorin the shader
+    var diffuseProduct = mult(lightDiffuse, materialDiffuse);
     var specularProduct = mult(lightSpecular, materialSpecular);
+         var ambientProduct2 = mult(lightAmbient2, materialAmbient2);
+    var diffuseProduct2 = mult(lightDiffuse2, materialDiffuse2);
+    var specularProduct2 = mult(lightSpecular2, materialSpecular2);
 
-    gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
+   gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct"),flatten(ambientProduct ));
     gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct"), flatten(diffuseProduct) );
-     gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct2"), flatten(diffuseProduct2) );
     gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct"),flatten(specularProduct));        
-    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition ));
-    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition2"), flatten(lightPosition2 ));
-    gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
-    
+    gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition"), flatten(lightPosition));
+    gl.uniform4fv( gl.getUniformLocation(this.program, "ambientProduct2"),flatten(ambientProduct2));
+    gl.uniform4fv( gl.getUniformLocation(this.program, "diffuseProduct2"), flatten(diffuseProduct2) );
+    gl.uniform4fv( gl.getUniformLocation(this.program, "specularProduct2"),flatten(specularProduct2));                
+        gl.uniform4fv( gl.getUniformLocation(this.program, "lightPosition2"), flatten(lightPosition2 ));
+        gl.uniform1f( gl.getUniformLocation(this.program, "shininess"),materialShininess );
+
+        gl.bindBuffer( gl.ARRAY_BUFFER, this.cBufferId ); // set active array buffer
 
     var vColorId = gl.getAttribLocation( this.program, "vColor" );
     gl.vertexAttribPointer( vColorId, 4, gl.FLOAT, false, 0, 0 );
@@ -114,6 +125,11 @@ Cube.prototype.draw = function(){
     gl.vertexAttribPointer( vPosId, 4, gl.FLOAT, false, 0, 0 );
     gl.enableVertexAttribArray( vPosId );
 
+    //commenting buffer out makes more cubes shiny
+    var vNormal = gl.getAttribLocation( this.program, "vNormal" );
+    gl.vertexAttribPointer( vNormal, 4, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vNormal );
+        
     // now push buffer data through the pipeline to render this object
     gl.drawArrays( gl.TRIANGLES, 0, this.numverts() );
         
@@ -228,3 +244,4 @@ Cube.prototype.orbit = function(angle, axis){
 
     this.transform = mult(rotate(angle, avec), this.transform);
 }
+
