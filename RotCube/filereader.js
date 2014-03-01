@@ -105,5 +105,7 @@ function addfile(){
 
   var sol = document.getElementById('solinput');
   sol.addEventListener('change', readSolFile, false);
+
+  
 }
 

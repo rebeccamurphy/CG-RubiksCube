@@ -11,6 +11,9 @@
   <meta charset="UTF-8"/>
   <style type="text/css">
     canvas { background: blue; }
+    iframe{
+    overflow:hidden;
+}
   </style>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
@@ -95,26 +98,28 @@ main()
 }
   </script>
 
-  <script type="text/javascript" src="../Common/webgl-utils.js"></script>
-  <script type="text/javascript" src="../Common/initShaders.js"></script>
-  <script type="text/javascript" src="../Common/MV.js"></script>
-  <script type="text/javascript" src="initGL.js"></script>
-  <script type="text/javascript" src="cube.js"></script>
-  <script type="text/javascript" src="rubiksfunctions.js"></script>
-  <script type="text/javascript" src="filereader.js"></script> 
-  <script type="text/javascript" src="animation.js"></script>
+  <script type="text/javascript" src="../Cube/Common/webgl-utils.js"></script>
+  <script type="text/javascript" src="../Cube/Common/initShaders.js"></script>
+  <script type="text/javascript" src="../Cube/Common/MV.js"></script>
+
+  <script type="text/javascript" src="../Cube/RotCube/initGL.js"></script>
+  <script type="text/javascript" src="../Cube/RotCube/cube.js"></script>
+  <script type="text/javascript" src="../Cube/RotCube/rubiksfunctions.js"></script>
+  <script type="text/javascript" src="../Cube/RotCube/filereader.js"></script> 
+  <script type="text/javascript" src="../Cube/RotCube/animation.js"></script>
 
 
 
 </head>
 <body style="background-color:black;text-align:center;">
-    <canvas id="gl-canvas" width="1024" height="768">Oops ...
+    <canvas id="gl-canvas" width="1000" height="500">Oops ...
         your browser doesn't support the HTML5 canvas element</canvas>
     <div>
         
         <button id = "Btn_OV">Normal View</button>
         <button id = "Btn_PV">Bottom Back View</button>
         <button id = "Btn_DC">Make Default Cube</button>
+      
         <button id = "Btn_Ani">Animate Solution</button>
 
         
@@ -124,7 +129,10 @@ main()
         <p style="color:white";align="right">Use this button to select Solution
         <input type="file" id="solinput" />        
         </p>
-      <p style="color:white";align="left"> One you have uploaded the files, press Animate Solution. If you want to replay the animation, simply press Animate Solution again. </p>
+
+      <p style="color:white";align="left"> One you have uploaded the files press Animate Solution. If you want to replay the animation, simply press Animate Solution again. If you don't have any test files, you can download TESTCUBE.txt and SOLUTION.txt <a href = "https://github.com/rebeccamurphy/RubixCube"> here. </a> Or watch a demo below (Warning, may be laggy):</p>
+      
+      <iframe src="https://vidd.me/e/2Aa" width="640" height="480" scrolling="no" frameborder="0"></iframe>
     </div>
 </body>
 </html>

@@ -70,7 +70,7 @@ function initGL()
         },
         false
     );
-
+   
 	var ani = document.getElementById("Btn_Ani");
     ani.addEventListener("click",
         function(){
